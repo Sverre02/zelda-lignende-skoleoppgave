@@ -1,0 +1,47 @@
+{
+    "image8": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAAAP///93/DwDwzKzP+vr/AM/MzPrPrP/wzMzMbGxm//DMz8xsZmz/8Mz8zMzMzP/wzMzMbGZs/wDPzMxsbPb+APDPzP/P/P4AAP//z/r//wAAAADw/wAPAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda back alt"
+    },
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAP8AAAAAAP8P3w8AAPDwVf/d/f////BV9f89PzP/z1z1293////PzFW/+xH9/s/MzP//Ef3+r8zMzMz///6vzMzMZsb8/vDKzMz/////AK/M/AAAAPAA8MoPAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda left"
+    },
+    "image5": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAPAPAAAAAPD/8P0AAP8AX/XfPQ/w/gBfVf/f///+8MxVv90f/f7wzFz1ux/9/vDMzPz//8//8MrMzMzMzP/wyszMbGb2/wCvzMz////+APDKzA/w7v4AAK/8AAD//wAA8A8AAADwAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda left alt"
+    },
+    "image6": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDwAAAPAAAK/8AAD//wDwyswP8O7+AK/MzP////7wyszMbGb2//DKzMzMzMz/8MzM/P//z//wzFz1ux/9/vDMVb/dH/3+AF9V/9////4AX/XfPQ/w/gDw//D9AAD/AAAA8A8AAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda right alt"
+    },
+    "image7": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD/AA8AAP//z/r//wDwz8z/z/z+AM/MzGxs9v7wzMzMbGZs//DM/MzMzMz/8MzPzGxmbP/wzMzMbGxm/wDPzMz6z6z/APDMrM/6+v8AAP///93/DwAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda back"
+    },
+    "image3": {
+        "data": "hwQQABAAAAAAAP8AAAAAAADwyg8AAAAAAK/M/AAAAPDwyszM/////6/MzMxmxvz+r8zMzMz///7PzMz//xH9/s/MVb/7Ef3+z1z1293////wVfX/PT8z//BV/939////AP8P3w8AAPAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "zelda right"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///D/AAAA/8rMHxEPD/CqzFX83/3/r8xV3c3f/f/PXNX/3f+v/89c1d09HxH/z8zV3T0fEf/PzNX/3a/6/s/MXN3Nr/r+8MxcVfz///4A/8zMH/H//wAA///w3Q8PAAAAAAD/AAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda front"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAA/wAAAAD///DdDw8A/8rMH/H///DKzFX8///+r8xc3c2v+v7PzNX/3a/6/s9c1d09HxH/z1zV3T0fEf/PzNX/3f+v/8/MVd3N3/3/8MxcVfzf/f8A/8zMHxEPDwAA///w/wAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda front alt"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
