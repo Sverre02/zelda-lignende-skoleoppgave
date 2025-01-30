@@ -1,43 +1,60 @@
 {
-    "image8": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAAAP///93/DwDwzKzP+vr/AM/MzPrPrP/wzMzMbGxm//DMz8xsZmz/8Mz8zMzMzP/wzMzMbGZs/wDPzMxsbPb+APDPzP/P/P4AAP//z/r//wAAAADw/wAPAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda back alt"
-    },
-    "image1": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAP8AAAAAAP8P3w8AAPDwVf/d/f////BV9f89PzP/z1z1293////PzFW/+xH9/s/MzP//Ef3+r8zMzMz///6vzMzMZsb8/vDKzMz/////AK/M/AAAAPAA8MoPAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda left"
-    },
     "image5": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAPAPAAAAAPD/8P0AAP8AX/XfPQ/w/gBfVf/f///+8MxVv90f/f7wzFz1ux/9/vDMzPz//8//8MrMzMzMzP/wyszMbGb2/wCvzMz////+APDKzA/w7v4AAK/8AAD//wAA8A8AAADwAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda left alt"
+        "displayName": "Zelda_left_alt"
     },
     "image6": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDwAAAPAAAK/8AAD//wDwyswP8O7+AK/MzP////7wyszMbGb2//DKzMzMzMz/8MzM/P//z//wzFz1ux/9/vDMVb/dH/3+AF9V/9////4AX/XfPQ/w/gDw//D9AAD/AAAA8A8AAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda right alt"
+        "displayName": "Zelda_right_alt"
     },
     "image7": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD/AA8AAP//z/r//wDwz8z/z/z+AM/MzGxs9v7wzMzMbGZs//DM/MzMzMz/8MzPzGxmbP/wzMzMbGxm/wDPzMz6z6z/APDMrM/6+v8AAP///93/DwAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda back"
+        "displayName": "Zelda_back"
     },
-    "image3": {
-        "data": "hwQQABAAAAAAAP8AAAAAAADwyg8AAAAAAK/M/AAAAPDwyszM/////6/MzMxmxvz+r8zMzMz///7PzMz//xH9/s/MVb/7Ef3+z1z1293////wVfX/PT8z//BV/939////AP8P3w8AAPAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+    "image8": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAAAP///93/DwDwzKzP+vr/AM/MzPrPrP/wzMzMbGxm//DMz8xsZmz/8Mz8zMzMzP/wzMzMbGZs/wDPzMxsbPb+APDPzP/P/P4AAP//z/r//wAAAADw/wAPAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "zelda right"
-    },
-    "image2": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///D/AAAA/8rMHxEPD/CqzFX83/3/r8xV3c3f/f/PXNX/3f+v/89c1d09HxH/z8zV3T0fEf/PzNX/3a/6/s/MXN3Nr/r+8MxcVfz///4A/8zMH/H//wAA///w3Q8PAAAAAAD/AAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda front"
+        "displayName": "Zelda_back_alt"
     },
     "image4": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAA/wAAAAD///DdDw8A/8rMH/H///DKzFX8///+r8xc3c2v+v7PzNX/3a/6/s9c1d09HxH/z1zV3T0fEf/PzNX/3f+v/8/MVd3N3/3/8MxcVfzf/f8A/8zMHxEPDwAA///w/wAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAA/wAAAAD///DdDw8A/8rMH/H///DKzFX8///+r8xV3c2v+v7PXNX/3a/6/s9c1d09HxH/z8zV3T0fEf/PzNX/3f+v/8/MXN3N3/3/8MxcVfzf/f8A/8zMHxEPDwAA///w/wAAAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda front alt"
+        "displayName": "Zelda_front_alt"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///D/AAAA/8rMHxEPD/DKzFX83/3/r8xV3c3f/f/PXNX/3f+v/89c1d09HxH/z8zV3T0fEf/PzNX/3a/6/s/MXN3Nr/r+8MxcVfz///4A/8zMH/H//wAA///w3Q8PAAAAAAD/AAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda_front"
+    },
+    "image1": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAP8AAAAAAP8P3w8AAPDwVf/d/f////BV9f89r6r/z1z1293////PzFW/+xH9/s/MzP//Ef3+r8zMzMz///6vzMzMZsb8/vDKzMz/////AK/M/AAAAPAA8MoPAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda_left"
+    },
+    "image3": {
+        "data": "hwQQABAAAAAAAP8AAAAAAADwyg8AAAAAAK/M/AAAAPDwyszM/////6/MzMxmxvz+r8zMzMz///7PzMz//xH9/s/MVb/7Ef3+z1z1293////wVfX/Pa+q//BV/939////AP8P3w8AAPAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "zelda_right"
+    },
+    "image9": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///wAAAADwlZX1DwAAAF9VWVn/AADwVVVVVfUAAPBVUfVf9QAA8BURVVX1AADwFRFVVfUAAPBVUfVf9QAA8FVVVVX1AAAAX1VZWf8AAADwlZX1DwAAAAD///8AAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Gust_zol"
+    },
+    "image10": {
+        "data": "hwQQABAAAAAAAAD///8PAAAA8MvMzP8AAAC/u8zM/A8A8Lu7y8zMDwC/u7u7u7v88Lu7u8vMzPzwu7u7zN3d/PC7u8vMzc388MzMvMzd3fzwzMzMy8zM/ADPzMy8u7v8APDMzMv//w8AAM+8/P//DwAA8Mz///8AAAAA////DwAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Rock"
+    },
+    "anim1": {
+        "namespace": "myAnimations",
+        "id": "anim1",
+        "mimeType": "application/mkcd-animation",
+        "data": "OGEwMjEwMDAxMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGYwZmZmZjBmMDAwMDAwMDA1ZjU1NTVmNTAwMDAwMGYwNTUxNTUxNTUwZjAwMDA1ZjU1MTExMTU1ZjUwMDAwOWY1NTE1NTE1NWY5MDAwMDVmNTk1NTU1OTVmNTAwMDA5ZjU1NWZmNTU1ZjkwMDAwNWY1OTVmZjU5NWY1MDAwMGZmNTU1NTU1NTVmZjAwMDBmMDVmNTU1NWY1MGYwMDAwMDBmZmZmZmZmZjAwMDAwMDAwMDBmZmZmMDAwMDAwMDAwMGYwNTU1NTBmMDAwMDAwMDA1ZjE1NTFmNTAwMDAwMDAwNWYxNTUxZjUwMDAwMDAwMDVmNTU1NWY1MDAwMDkwMDA1ZjVmZjVmNTAwMDkwOTA5NWY1ZmY1ZjU5MDkwMDAwOTVmNWZmNWY1OTAwMDAwOTA1ZjVmZjVmNTA5MDAwOTA5NTg1ZmY1ODU5MDkwOTA5MDVmNTU1NWY1MDkwOTA5MDA1ZjU1NTVmNTAwOTAwMGYwNWY1NTU1ZjUwZjAwMDBmMDVmNTU1NWY1MGYwMDAwZjBmZjU1NTVmZjBmMDAwMDAwZmZmZmZmZmYwMDAw",
+        "displayName": "Gust_zol_Animation"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",
