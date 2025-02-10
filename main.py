@@ -1,145 +1,77 @@
-zelda = sprites.create(img("""
-        . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . .
-    """),
-    SpriteKind.player)
+@namespace
+class SpriteKind:
+    Zol = SpriteKind.create()
+    Throwable = SpriteKind.create()
+    
+Rock: Sprite = None
+Gustzol: Sprite = None
+zelda = sprites.create(assets.image("""
+    Zelda_front
+"""), SpriteKind.player)
 controller.move_sprite(zelda, 51, 51)
 scene.camera_follow_sprite(zelda)
 tiles.set_current_tilemap(tilemap("""
     level2
 """))
+for value in tiles.get_tiles_by_type(assets.tile("""
+    myTile
+""")):
+    Gustzol = sprites.create(assets.image("""
+        Gust_zol
+    """), SpriteKind.Zol)
+    tiles.place_on_tile(Gustzol, value)
+    animation.run_image_animation(Gustzol,
+        assets.animation("""
+            Gust_zol_Animation
+        """),
+        650,
+        True)
+    Gustzol.follow(zelda, 20)
+for value2 in tiles.get_tiles_by_type(assets.tile("""
+    myTile2
+""")):
+    Rock = sprites.create(assets.image("""
+        Rock
+    """), SpriteKind.Throwable)
+    tiles.place_on_tile(Rock, value2)
+    tiles.set_wall_at(value2, True)
 
 def on_on_update():
-    print(zelda.y)
     if zelda.vx < 0:
-        zelda.set_image(img("""
-            . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . .
-        """))
-    elif zelda.vx > 0:
-        zelda.set_image(img("""
-            . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . .
-        """))
-    elif zelda.vy > 0:
-        if Math.round(zelda.y) % 2 == 0:
-            zelda.set_image(img("""
-                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . .
+        if Math.round(zelda.x / 10) % 2 == 0:
+            zelda.set_image(assets.image("""
+                Zelda_left
             """))
         else:
-            zelda.set_image(img("""
-                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . . 
-                                . . . . . . . . . . . . . . . .
+            zelda.set_image(assets.image("""
+                Zelda_left_alt
+            """))
+    elif zelda.vx > 0:
+        if Math.round(zelda.x / 10) % 2 == 0:
+            zelda.set_image(assets.image("""
+                zelda_right
+            """))
+        else:
+            zelda.set_image(assets.image("""
+                Zelda_right_alt
+            """))
+    elif zelda.vy > 0:
+        if Math.round(zelda.y / 10) % 2 == 0:
+            zelda.set_image(assets.image("""
+                Zelda_front
+            """))
+        else:
+            zelda.set_image(assets.image("""
+                Zelda_front_alt
             """))
     elif zelda.vy < 0:
-        if Math.round(zelda.y) % 2 == 0:
-            zelda.set_image(img("""
-                . . . . . . . . . . . . . . . . 
-                                . . . . . . f f f f . . . . . . 
-                                . . . . . f c c c c f . . . . . 
-                                . . . . f c c c c c c f . . . . 
-                                . . . f f c c c f c c c f . . . 
-                                . . . f c c c f c c c c f . . . 
-                                . . . f c c c c c c c c f . . . 
-                                . . . f c c c c c c c a f . . . 
-                                . . . f f c c c c c a f f . . . 
-                                . . f c f c 6 c 6 c f c f . . . 
-                                . . f a f c 6 c 6 c f a d f . . 
-                                . . f f c 6 6 c 6 6 c f d f . . 
-                                . . . f c 6 c c c 6 c a f . . . 
-                                . . . f f f 6 c 6 6 a f f . . . 
-                                . . f f e e f f f f f f f . . . 
-                                . . . f f f f f f f f f . . . .
+        if 0 == Math.round(zelda.y / 10) % 2:
+            zelda.set_image(assets.image("""
+                Zelda_back
             """))
         else:
-            zelda.set_image(img("""
-                . . . . . . . . . . . . . . . . 
-                                . . . . . . f f f f . . . . . . 
-                                . . . . . f c c c c f . . . . . 
-                                . . . . f c c c c c c f . . . . 
-                                . . . f c c c f c c c f f . . . 
-                                . . . f c c c c f c c c f . . . 
-                                . . . f c c c c c c c c f . . . 
-                                . . . f a c c c c c c c f . . . 
-                                . . . f f a c c c c c f f . . . 
-                                . . . f c f c 6 c 6 c f c f . . 
-                                . . f d a f c 6 c 6 c f a f . . 
-                                . . f d f c 6 6 c 6 6 c f f . . 
-                                . . . f a c 6 c c c 6 c f . . . 
-                                . . . f f a 6 6 c 6 f f f . . . 
-                                . . . f f f f f f f e e f f . . 
-                                . . . . f f f f f f f f f . . .
+            zelda.set_image(assets.image("""
+                Zelda_back_alt
             """))
     else:
         pass

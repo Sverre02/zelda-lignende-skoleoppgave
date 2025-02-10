@@ -4,7 +4,7 @@ namespace SpriteKind {
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Throwable, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
-    	
+        sprites.destroy(otherSprite)
     }
 })
 let Rock: Sprite = null
@@ -14,19 +14,35 @@ controller.moveSprite(zelda, 51, 51)
 scene.cameraFollowSprite(zelda)
 tiles.setCurrentTilemap(tilemap`level2`)
 for (let value of tiles.getTilesByType(assets.tile`myTile`)) {
+    let mySprite: Sprite = null
     Gustzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Zol)
-    tiles.placeOnTile(Gustzol, value)
     animation.runImageAnimation(
-    Gustzol,
-    assets.animation`Gust_zol_Animation`,
-    650,
-    true
+    mySprite,
+    [img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    500,
+    false
     )
-    Gustzol.follow(zelda, 20)
 }
 for (let value2 of tiles.getTilesByType(assets.tile`myTile2`)) {
     Rock = sprites.create(assets.image`Rock`, SpriteKind.Throwable)
-    tiles.placeOnTile(Rock, value2)
+    tiles.placeOnTile(Rock, tiles.getTileLocation(0, 0))
     tiles.setWallAt(value2, true)
 }
 game.onUpdate(function () {
