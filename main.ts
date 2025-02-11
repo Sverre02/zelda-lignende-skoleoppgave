@@ -2,75 +2,96 @@ namespace SpriteKind {
     export const Zol = SpriteKind.create()
     export const Throwable = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Throwable, function (sprite, otherSprite) {
-    if (controller.A.isPressed()) {
-        sprites.destroy(otherSprite)
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    if (controller.A.isPressed() && steinsjekk == 0) {
+        for (let value of [
+        CollisionDirection.Left,
+        CollisionDirection.Top,
+        CollisionDirection.Right,
+        CollisionDirection.Bottom
+        ]) {
+            if (tiles.tileIsWall(tiles.locationInDirection(tiles.locationOfSprite(zelda), value))) {
+                tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile2`)
+                tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
+                steinsjekk = 1
+            }
+        }
     }
 })
-let Rock: Sprite = null
 let Gustzol: Sprite = null
-let zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
+let zelda: Sprite = null
+let steinsjekk = 0
+steinsjekk = 0
+zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
 controller.moveSprite(zelda, 51, 51)
 scene.cameraFollowSprite(zelda)
 tiles.setCurrentTilemap(tilemap`level2`)
 for (let value of tiles.getTilesByType(assets.tile`myTile`)) {
-    let mySprite: Sprite = null
     Gustzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Zol)
+    tiles.placeOnTile(Gustzol, value)
     animation.runImageAnimation(
-    mySprite,
-    [img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `],
-    500,
+    Gustzol,
+    assets.animation`Gust_zol_Animation`,
+    650,
     false
     )
 }
-for (let value2 of tiles.getTilesByType(assets.tile`myTile2`)) {
-    Rock = sprites.create(assets.image`Rock`, SpriteKind.Throwable)
-    tiles.placeOnTile(Rock, tiles.getTileLocation(0, 0))
-    tiles.setWallAt(value2, true)
-}
 game.onUpdate(function () {
-    if (zelda.vx < 0) {
-        if (Math.round(zelda.x / 10) % 2 == 0) {
-            zelda.setImage(assets.image`Zelda_left`)
+    if (steinsjekk == 1) {
+        if (zelda.vx < 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+            	
+            } else {
+            	
+            }
+        } else if (zelda.vx > 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+            	
+            } else {
+            	
+            }
+        } else if (zelda.vy > 0) {
+            if (Math.round(zelda.y / 10) % 2 == 0) {
+            	
+            } else {
+            	
+            }
+        } else if (zelda.vy < 0) {
+            if (0 == Math.round(zelda.y / 10) % 2) {
+            	
+            } else {
+            	
+            }
         } else {
-            zelda.setImage(assets.image`Zelda_left_alt`)
-        }
-    } else if (zelda.vx > 0) {
-        if (Math.round(zelda.x / 10) % 2 == 0) {
-            zelda.setImage(assets.image`zelda_right`)
-        } else {
-            zelda.setImage(assets.image`Zelda_right_alt`)
-        }
-    } else if (zelda.vy > 0) {
-        if (Math.round(zelda.y / 10) % 2 == 0) {
-            zelda.setImage(assets.image`Zelda_front`)
-        } else {
-            zelda.setImage(assets.image`Zelda_front_alt`)
-        }
-    } else if (zelda.vy < 0) {
-        if (0 == Math.round(zelda.y / 10) % 2) {
-            zelda.setImage(assets.image`Zelda_back`)
-        } else {
-            zelda.setImage(assets.image`Zelda_back_alt`)
+        	
         }
     } else {
-    	
+        if (zelda.vx < 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_left`)
+            } else {
+                zelda.setImage(assets.image`Zelda_left_alt`)
+            }
+        } else if (zelda.vx > 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`zelda_right`)
+            } else {
+                zelda.setImage(assets.image`Zelda_right_alt`)
+            }
+        } else if (zelda.vy > 0) {
+            if (Math.round(zelda.y / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_front`)
+            } else {
+                zelda.setImage(assets.image`Zelda_front_alt`)
+            }
+        } else if (zelda.vy < 0) {
+            if (0 == Math.round(zelda.y / 10) % 2) {
+                zelda.setImage(assets.image`Zelda_back`)
+            } else {
+                zelda.setImage(assets.image`Zelda_back_alt`)
+            }
+        } else {
+        	
+        }
     }
 })

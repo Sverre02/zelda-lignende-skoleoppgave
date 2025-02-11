@@ -1,8 +1,9 @@
 {
-    "name": "Zelda_lignende_skoleoppgave",
+    "name": "Zelda_echo",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0"
     },
     "files": [
         "main.blocks",
