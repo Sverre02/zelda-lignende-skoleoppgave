@@ -71,12 +71,65 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 3
 })
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Zol, function (sprite, otherSprite) {
+    if (zol_kill_count == 0) {
+        zol_echo_shimmer.setPosition(otherSprite.x, otherSprite.y)
+        zol_echo_shimmer.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . f 5 5 5 5 5 5 f . . . . 
+            . . . f 5 5 5 1 1 5 5 5 f . . . 
+            . . f 5 5 5 1 1 1 1 5 5 5 f . . 
+            . . f 9 5 5 5 1 1 5 5 5 9 f . . 
+            . . f 5 9 5 5 5 5 5 5 9 5 f . . 
+            . . f 9 5 5 f 5 5 f 5 5 9 f . . 
+            . . f 5 9 5 f 5 5 f 5 9 5 f . . 
+            . . f f 5 5 5 5 5 5 5 5 f f . . 
+            . . . f f 5 5 5 5 5 5 f f . . . 
+            . . . . f f f f f f f f . . . . 
+            `)
+        zol_echo_shimmer.startEffect(effects.starField)
+        animation.runImageAnimation(
+        zol_echo_shimmer,
+        assets.animation`Zol_echo_shimmer_animation`,
+        500,
+        true
+        )
+    }
+    sprites.destroy(otherSprite, effects.disintegrate, 100)
+    sprites.destroy(sprite, effects.ashes, 100)
+    zol_kill_count += 1
+})
+let zol_kill_count = 0
 let projectile: Sprite = null
 let direction = 0
-let Gustzol: Sprite = null
+let woltzol: Sprite = null
 let zelda: Sprite = null
 let steinsjekk = 0
 let Rock: Sprite = null
+let zol_echo_shimmer: Sprite = null
+zol_echo_shimmer = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Food)
 Rock = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -100,16 +153,17 @@ zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
 scene.cameraFollowSprite(zelda)
 tiles.setCurrentTilemap(tilemap`level2`)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
+info.setLife(5)
 for (let value of tiles.getTilesByType(assets.tile`myTile`)) {
-    Gustzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Zol)
-    tiles.placeOnTile(Gustzol, value)
+    woltzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Zol)
+    tiles.placeOnTile(woltzol, value)
     animation.runImageAnimation(
-    Gustzol,
+    woltzol,
     assets.animation`Gust_zol_Animation`,
     650,
     true
     )
-    Gustzol.follow(zelda, 20)
+    woltzol.follow(zelda, 20)
 }
 game.onUpdate(function () {
     if (steinsjekk == 1) {
