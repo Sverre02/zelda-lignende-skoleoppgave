@@ -19,16 +19,6 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Zelda_back_alt"
     },
-    "image4": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAA/wAAAAD///DdDw8A/8rMH/H///DKzFX8///+r8xV3c2v+v7PXNX/3a/6/s9c1d09HxH/z8zV3T0fEf/PzNX/3f+v/8/MXN3N3/3/8MxcVfzf/f8A/8zMHxEPDwAA///w/wAAAAAAAAAAAAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda_front_alt"
-    },
-    "image2": {
-        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///D/AAAA/8rMHxEPD/DKzFX83/3/r8xV3c3f/f/PXNX/3f+v/89c1d09HxH/z8zV3T0fEf/PzNX/3a/6/s/MXN3Nr/r+8MxcVfz///4A/8zMH/H//wAA///w3Q8PAAAAAAD/AAAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "Zelda_front"
-    },
     "image1": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAP8AAAAAAP8P3w8AAPDwVf/d/f////BV9f89r6r/z1z1293////PzFW/+xH9/s/MzP//Ef3+r8zMzMz///6vzMzMZsb8/vDKzMz/////AK/M/AAAAPAA8MoPAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -74,15 +64,25 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Zelda_left_rock_alt"
     },
-    "image16": {
-        "data": "hwQQABAAAAAAAAD///8PAAAA8MvMzP8AAAC/u8zM/A8A8Lu7y8zMDwC/u7u7u7v88Lu7u8vMzPzwu7u7zN3d/PC7u8vMzc388MzMvMzd3fzwzMzMy8zM/ADPzMy8u7v8APDMzMv//w8AAM+8/P//DwAA8Mz///8AAAAA////DwAAAAAAAAAAAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "carry_rock"
-    },
     "image10": {
         "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAAAA/w/fDwAA8PBV/939////8FX1/z2vqv/PXPXb3a+q/8//////EfH+/90fERHP/P7/3R8REc/8/q//////xvz+8MrMzP////8Ar8z8AAAA8ADwyg8AAAAAAAD/AAAAAAAAAAAAAAAAAA==",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "Zelda_left_rock"
+    },
+    "image2": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///D/AAAA/8rMHxEPD/DKzFX83/3/r8xV3c3f/f/PXNX/3f+v/89c1d09HxH/z8zV3T0fEf/PzNX/3a/6/s/MXN3Nr/r+8MxcVfz///4A/8zMH/H//wAA///w3Q8PAAAAAAD/AAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda_front"
+    },
+    "image4": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAA/wAAAAD///DdDw8A/8rMH/H///DKzFX8///+r8xV3c2v+v7PXNX/3a/6/s9c1d09HxH/z8zV3T0fEf/PzNX/3f+v/8/MXN3N3/3/8MxcVfzf/f8A/8zMHxEPDwAA///w/wAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "Zelda_front_alt"
+    },
+    "image16": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAP///w8AAADwy8zM/wAAAL+7zMz8DwDwu7vLzMwPAL+7u7u7u/zwu7u7y8zM/PC7u7vM3d388Lu7y8zNzfzwzMy8zN3d/PDMzMzLzMz8AM/MzLy7u/wA8MzMy///DwAAz7z8//8PAADwzP///wAAAAD///8PAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "carry_rock"
     },
     "anim1": {
         "namespace": "myAnimations",

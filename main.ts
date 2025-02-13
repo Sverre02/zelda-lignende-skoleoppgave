@@ -11,21 +11,90 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
         CollisionDirection.Bottom
         ]) {
             if (tiles.tileIsWall(tiles.locationInDirection(tiles.locationOfSprite(zelda), value))) {
-                tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile2`)
-                tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
-                steinsjekk = 1
+                if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile0`)) {
+                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile2`)
+                    tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
+                    steinsjekk = 1
+                    Rock.setImage(assets.image`carry_rock`)
+                }
             }
         }
     }
 })
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 1
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (steinsjekk == 1) {
+        Rock.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        steinsjekk = 0
+        zelda.setImage(assets.image`Zelda_front`)
+        if (direction == 0) {
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, -20, 0)
+        } else if (direction == 1) {
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 0, -20)
+        } else if (direction == 2) {
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 20, 0)
+        } else if (direction == 3) {
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 0, 20)
+        }
+    }
+})
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 0
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 2
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 3
+})
+let projectile: Sprite = null
+let direction = 0
 let Gustzol: Sprite = null
 let zelda: Sprite = null
 let steinsjekk = 0
+let Rock: Sprite = null
+Rock = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Throwable)
 steinsjekk = 0
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
-controller.moveSprite(zelda, 51, 51)
 scene.cameraFollowSprite(zelda)
 tiles.setCurrentTilemap(tilemap`level2`)
+Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
 for (let value of tiles.getTilesByType(assets.tile`myTile`)) {
     Gustzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Zol)
     tiles.placeOnTile(Gustzol, value)
@@ -39,6 +108,8 @@ for (let value of tiles.getTilesByType(assets.tile`myTile`)) {
 }
 game.onUpdate(function () {
     if (steinsjekk == 1) {
+        controller.moveSprite(zelda, 27, 27)
+        Rock.setPosition(zelda.x, zelda.top - 6)
         if (zelda.vx < 0) {
             if (Math.round(zelda.x / 10) % 2 == 0) {
                 zelda.setImage(assets.image`Zelda_left_rock`)
@@ -84,6 +155,7 @@ game.onUpdate(function () {
         	
         }
     } else {
+        controller.moveSprite(zelda, 51, 51)
         if (zelda.vx < 0) {
             if (Math.round(zelda.x / 10) % 2 == 0) {
                 zelda.setImage(assets.image`Zelda_left`)

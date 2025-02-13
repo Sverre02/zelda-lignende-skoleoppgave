@@ -79,44 +79,6 @@ namespace myImages {
 . . . f f f f f f f e e f f . . 
 . . . . f f f f f f f f f . . . 
 `;
-            case "image4":
-            case "Zelda_front_alt":return img`
-. . . . . f f f f f f . . . . . 
-. . . . f a c c c c c f . . . . 
-. . . f a c c c c c c c f . . . 
-. . . f c c 5 5 c c c c f . . . 
-. . f a c 5 5 5 5 5 c c c f . . 
-. . f c c 5 d d d d 5 5 c f . . 
-. . f c 5 d f d d f d 5 c f . . 
-. . f c 5 d f d d f d 5 c f . . 
-. . . f c d d d d d d c f . . . 
-. . f 1 f c d 3 3 d c f 1 f . . 
-. f d 1 f f f f f f f f 1 f . . 
-. f d f f a a 1 1 f d d 1 f . . 
-. . f f f a a 1 1 f d d f . . . 
-. . . f f f f 1 1 a f f . . . . 
-. . f f e e e f f f f f f . . . 
-. . . f f f f f f f f f . . . . 
-`;
-            case "image2":
-            case "Zelda_front":return img`
-. . . . . f f f f f f . . . . . 
-. . . . f a c c c c c f . . . . 
-. . . f a c c c c c c c f . . . 
-. . . f c c 5 5 c c c c f . . . 
-. . f a c 5 5 5 5 5 c c c f . . 
-. . f c c 5 d d d d 5 5 c f . . 
-. . f c 5 d f d d f d 5 c f . . 
-. . f c 5 d f d d f d 5 c f . . 
-. . . f c d d d d d d c f . . . 
-. . f 1 f c d 3 3 d c f 1 f . . 
-. . f 1 f f f f f f f f 1 d f . 
-. . f 1 d d f 1 1 a a f f d f . 
-. . . f d d f 1 1 a a f f f . . 
-. . . . f f a 1 1 f f f f . . . 
-. . . f f f f f f e e e f f . . 
-. . . . f f f f f f f f f . . . 
-`;
             case "image1":
             case "Zelda_left":return img`
 . . . . . f f f f f . . . . . . 
@@ -288,25 +250,6 @@ namespace myImages {
 . . f e e e f f f f e e f . . . 
 . . f f f f f f f f f f f f . . 
 `;
-            case "image16":
-            case "carry_rock":return img`
-. . . . . . . . . . . . . . . . 
-. . . . . f f f f f . . . . . . 
-. . . . f b b b c c f . . . . . 
-. . . f b b b b c c c f . . . . 
-. . f b b b b b c c c c f . . . 
-. f b b b b b b c c c c c f . . 
-f b b b b b b b c c c c c c f . 
-f c b b b b b c b c c c b c f . 
-f c c b b b c c c b c b c f f . 
-f c c c b c c c c c b c f f f . 
-f c c c b c d d d c b f f f f . 
-f c c c b c d c d c b f f f f . 
-f f c c b c d d d c b f f f f . 
-. f f c b c d c d c b f f f . . 
-. . f f c c c c c c c f f . . . 
-. . . . f f f f f f f . . . . . 
-`;
             case "image10":
             case "Zelda_left_rock":return img`
 . . . . . . f f f f f . . . . . 
@@ -325,6 +268,63 @@ f f c c b c d d d c b f f f f .
 . . . . f a a f f f f f . . . . 
 . . . . f f f e e e e f . . . . 
 . . . f f f f f f f f f f . . . 
+`;
+            case "image2":
+            case "Zelda_front":return img`
+. . . . . f f f f f f . . . . . 
+. . . . f a c c c c c f . . . . 
+. . . f a c c c c c c c f . . . 
+. . . f c c 5 5 c c c c f . . . 
+. . f a c 5 5 5 5 5 c c c f . . 
+. . f c c 5 d d d d 5 5 c f . . 
+. . f c 5 d f d d f d 5 c f . . 
+. . f c 5 d f d d f d 5 c f . . 
+. . . f c d d d d d d c f . . . 
+. . f 1 f c d 3 3 d c f 1 f . . 
+. . f 1 f f f f f f f f 1 d f . 
+. . f 1 d d f 1 1 a a f f d f . 
+. . . f d d f 1 1 a a f f f . . 
+. . . . f f a 1 1 f f f f . . . 
+. . . f f f f f f e e e f f . . 
+. . . . f f f f f f f f f . . . 
+`;
+            case "image4":
+            case "Zelda_front_alt":return img`
+. . . . . f f f f f f . . . . . 
+. . . . f a c c c c c f . . . . 
+. . . f a c c c c c c c f . . . 
+. . . f c c 5 5 c c c c f . . . 
+. . f a c 5 5 5 5 5 c c c f . . 
+. . f c c 5 d d d d 5 5 c f . . 
+. . f c 5 d f d d f d 5 c f . . 
+. . f c 5 d f d d f d 5 c f . . 
+. . . f c d d d d d d c f . . . 
+. . f 1 f c d 3 3 d c f 1 f . . 
+. f d 1 f f f f f f f f 1 f . . 
+. f d f f a a 1 1 f d d 1 f . . 
+. . f f f a a 1 1 f d d f . . . 
+. . . f f f f 1 1 a f f . . . . 
+. . f f e e e f f f f f f . . . 
+. . . f f f f f f f f f . . . . 
+`;
+            case "image16":
+            case "carry_rock":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . f f f f f . . . . . 
+. . . . . f b b b c c f . . . . 
+. . . . f b b b b c c c f . . . 
+. . . f b b b b b c c c c f . . 
+. . f b b b b b b c c c c c f . 
+. f b b b b b b b c c c c c c f 
+. f c b b b b b c b c c c b c f 
+. f c c b b b c c c b c b c f f 
+. f c c c b c c c c c b c f f f 
+. f c c c b c d d d c b f f f f 
+. f c c c b c d c d c b f f f f 
+. f f c c b c d d d c b f f f f 
+. . f f c b c d c d c b f f f . 
+. . . f f c c c c c c c f f . . 
+. . . . . f f f f f f f . . . . 
 `;
         }
         return null;
