@@ -45,16 +45,21 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             . . . . . . . . . . . . . . . . 
             `)
         steinsjekk = 0
-        zelda.setImage(assets.image`Zelda_front`)
         if (direction == 0) {
-            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, -20, 0)
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, Rock, -50, 10)
+            zelda.setImage(assets.image`Zelda_left`)
         } else if (direction == 1) {
-            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 0, -20)
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, Rock, 0, -50)
+            zelda.setImage(assets.image`Zelda_back`)
         } else if (direction == 2) {
-            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 20, 0)
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, Rock, 50, 10)
+            zelda.setImage(assets.image`zelda_right`)
         } else if (direction == 3) {
-            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, zelda, 0, 20)
+            projectile = sprites.createProjectileFromSprite(assets.image`carry_rock`, Rock, 0, 50)
+            zelda.setImage(assets.image`Zelda_front`)
         }
+        pause(1000)
+        sprites.destroy(projectile)
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
