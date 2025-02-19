@@ -6,6 +6,7 @@ namespace SpriteKind {
     export const bar = SpriteKind.create()
     export const wand = SpriteKind.create()
     export const UI = SpriteKind.create()
+    export const wall = SpriteKind.create()
 }
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     if (controller.A.isPressed() && steinsjekk == 0) {
@@ -16,8 +17,8 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
         CollisionDirection.Bottom
         ]) {
             if (tiles.tileIsWall(tiles.locationInDirection(tiles.locationOfSprite(zelda), value))) {
-                if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile0`)) {
-                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`myTile2`)
+                if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`Stone`)) {
+                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`Stone_replacementile`)
                     tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
                     steinsjekk = 1
                     Rock.setImage(assets.image`carry_rock`)
@@ -33,32 +34,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_zol, function (sprite, othe
     animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
     effects.clearParticles(zol_echo_shimmer)
     zol_echo_shimmer.setImage(assets.image`empty`)
-    game.setDialogFrame(img`
-        ..bbbbbbbbbbbbbbbbbbbb..
-        .b11bb11bb11bb11bb11bbb.
-        bbb11bb11bb11bb11bb11b1b
-        bb1bbbbbbbbbbbbbbbbbb11b
-        b11bb11111111111111bb1bb
-        b1bb1111111111111111bbbb
-        bbbb1111111111111111bb1b
-        bb1b1111111111111111b11b
-        b11b1111111111111111b1bb
-        b1bb1111111111111111bbbb
-        bbbb1111111111111111bb1b
-        bb1b1111111111111111b11b
-        b11b1111111111111111b1bb
-        b1bb1111111111111111bbbb
-        bbbb1111111111111111bb1b
-        bb1b1111111111111111b11b
-        b11b1111111111111111b1bb
-        b1bb1111111111111111bbbb
-        bbbb1111111111111111bb1b
-        bb1bb11111111111111bb11b
-        b11bbbbbbbbbbbbbbbbbb1bb
-        b1b11bb11bb11bb11bb11bbb
-        .bbb11bb11bb11bb11bb11b.
-        ..bbbbbbbbbbbbbbbbbbbb..
-        `)
+    game.setDialogFrame(assets.image`Info_box`)
     game.showLongText("You found a echo!", DialogLayout.Bottom)
     has_voltzol_echo += 1
 })
@@ -83,8 +59,60 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         sprites.destroy(projectile)
     }
 })
+function LoadLevel (Level: number) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.npc)
+    sprites.destroyAllSpritesOfKind(SpriteKind.wall)
+    sprites.destroyAllSpritesOfKind(SpriteKind.bar)
+    if (Level == 1) {
+        lev = 1
+        tiles.loadMap(tiles.createMap(tilemap`level2`))
+    } else if (Level == 2) {
+        lev = 2
+        tiles.loadMap(tiles.createMap(tilemap`level9`))
+    }
+}
+tiles.onMapLoaded(function (tilemap2) {
+    if (lev == 1) {
+        tiles.setWallAt(tiles.getTileLocation(7, 0), true)
+        wall_hole = sprites.create(assets.image`Wall_hole`, SpriteKind.wall)
+        bar2 = sprites.create(assets.image`Gate`, SpriteKind.bar)
+        tiles.placeOnTile(wall_hole, tiles.getTileLocation(7, 0))
+        tiles.placeOnTile(bar2, tiles.getTileLocation(7, 0))
+        wall_hole.z = 1
+        music.play(music.createSong(assets.song`Battle`), music.PlaybackMode.LoopingInBackground)
+        game.setGameOverEffect(false, effects.melt)
+        game.setGameOverPlayable(false, music.melodyPlayable(music.spooky), true)
+        Henry_the_turmit = sprites.create(assets.image`empty`, SpriteKind.npc)
+        for (let value2 of tiles.getTilesByType(assets.tile`Zol_placeholder`)) {
+            woltzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Enemy)
+            tiles.placeOnTile(woltzol, value2)
+            animation.runImageAnimation(
+            woltzol,
+            assets.animation`Gust_zol_Animation`,
+            650,
+            true
+            )
+            woltzol.follow(zelda, 20)
+        }
+    } else if (lev == 2) {
+        for (let value of tiles.getTilesByType(assets.tile`Door_Placeholder`)) {
+            dungeon_wall = sprites.create(assets.image`Dungeon doorway`, SpriteKind.wall)
+            bar2 = sprites.create(assets.image`Gate`, SpriteKind.bar)
+            tiles.placeOnTile(dungeon_wall, value)
+            dungeon_wall.z = 1
+            tiles.placeOnTile(bar2, value)
+        }
+        tiles.placeOnTile(zelda, tiles.getTileLocation(5, 9))
+        zelda.setImage(assets.image`Zelda_back`)
+        pause(500)
+        tiles.setTileAt(tiles.getTileLocation(5, 10), assets.tile`Dungeon_wall_top0`)
+    }
+})
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 0
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.bar, function (sprite, otherSprite) {
+    LoadLevel(2)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 2
@@ -98,27 +126,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite, otherSpr
     game.showLongText("You Got a wand", DialogLayout.Bottom)
     animation.runImageAnimation(
     bar2,
-    [img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `],
+    assets.animation`Bar_animation`,
     500,
     false
     )
+    pause(5000)
+    tiles.setWallAt(tiles.getTileLocation(7, 0), false)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     if (otherSprite == woltzol) {
@@ -150,56 +163,58 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 let zol_kill_count = 0
 let wand2: Sprite = null
+let dungeon_wall: Sprite = null
+let woltzol: Sprite = null
+let Henry_the_turmit: Sprite = null
+let bar2: Sprite = null
+let wall_hole: Sprite = null
+let lev = 0
 let projectile: Sprite = null
 let has_voltzol_echo = 0
 let zol_echo_shimmer: Sprite = null
 let direction = 0
 let steinsjekk = 0
-let woltzol: Sprite = null
-let zelda: Sprite = null
 let Rock: Sprite = null
-let bar2: Sprite = null
-let A = sprites.create(assets.image`empty`, SpriteKind.UI)
-bar2 = sprites.create(assets.image`Gate`, SpriteKind.bar)
-let Henry_the_hermit = sprites.create(assets.image`empty`, SpriteKind.npc)
-Rock = sprites.create(assets.image`empty`, SpriteKind.Throwable)
+let zelda: Sprite = null
+LoadLevel(1)
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
+Rock = sprites.create(assets.image`empty`, SpriteKind.Throwable)
 scene.cameraFollowSprite(zelda)
-tiles.setCurrentTilemap(tilemap`level2`)
+info.setLife(5)
+let A = sprites.create(assets.image`empty`, SpriteKind.UI)
 A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
-info.setLife(5)
-tiles.placeOnRandomTile(bar2, assets.tile`wall_top0`)
-for (let value2 of tiles.getTilesByType(assets.tile`myTile`)) {
-    woltzol = sprites.create(assets.image`Gust_zol`, SpriteKind.Enemy)
-    tiles.placeOnTile(woltzol, value2)
-    animation.runImageAnimation(
-    woltzol,
-    assets.animation`Gust_zol_Animation`,
-    650,
-    true
-    )
-    woltzol.follow(zelda, 20)
-}
 game.onUpdate(function () {
+    if (info.life() == 1) {
+        music.play(music.melodyPlayable(music.sonar), music.PlaybackMode.UntilDone)
+    }
     A.setImage(assets.image`empty`)
-    if (1 == zol_kill_count && has_voltzol_echo == 1) {
-        Henry_the_hermit = sprites.create(assets.image`Henry_the_hermit`, SpriteKind.npc)
+    if (1 == zol_kill_count && has_voltzol_echo == 1 && lev == 1) {
+        music.stopAllSounds()
+        music.play(music.createSong(assets.song`You_did_it`), music.PlaybackMode.InBackground)
+        Henry_the_turmit = sprites.create(assets.image`Henry_the_turmit`, SpriteKind.npc)
         zol_kill_count = 0
-        tiles.placeOnRandomTile(Henry_the_hermit, assets.tile`myTile1`)
-        Henry_the_hermit.setImage(assets.image`Henry_the_hermit`)
+        tiles.placeOnRandomTile(Henry_the_turmit, assets.tile`Henry_hiding`)
+        Henry_the_turmit.setImage(assets.image`Henry_the_turmit`)
+        animation.runImageAnimation(
+        Henry_the_turmit,
+        assets.animation`Henry_animation`,
+        500,
+        true
+        )
+        tiles.setTileAt(tiles.getTileLocation(9, 1), assets.tile`myTile4`)
         has_voltzol_echo = 5
     }
-    if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), assets.tile`myTile1`)) {
+    if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), assets.tile`myTile4`)) {
         game.setDialogFrame(assets.image`Henry_plate`)
         A.setImage(assets.image`Button`)
         if (controller.A.isPressed() && 5 == has_voltzol_echo) {
             has_voltzol_echo += 1
-            game.showLongText("Hello there. Thanks for taking care of Those pesky zols. My name is Henry the hermit. Vendor of rare goods. As a thank you i will open the door over there", DialogLayout.Bottom)
+            game.showLongText("Hello there. Thanks for taking care of Those pesky zols. My name is Henry the Turmit. Vendor of rare goods. As a thank you i will open the door over there", DialogLayout.Bottom)
             game.showLongText("Hey is that a echo shimmer. If you have a wand you can use it to have a enemy help you fight. HUH! you don't have a wand. Convenient that i have one in my stock right now. Do you want it?", DialogLayout.Bottom)
             wand2 = sprites.create(assets.image`Wand`, SpriteKind.wand)
-            wand2.setPosition(Henry_the_hermit.left - 6, Henry_the_hermit.y)
+            wand2.setPosition(Henry_the_turmit.left - 6, Henry_the_turmit.y)
             animation.runImageAnimation(
             wand2,
             assets.animation`wand animation`,
@@ -208,6 +223,7 @@ game.onUpdate(function () {
             )
         }
         if (controller.A.isPressed() && 6 == has_voltzol_echo) {
+            A.setImage(assets.image`Button`)
             game.showLongText("Go ahead try it ", DialogLayout.Bottom)
         }
     }
