@@ -165,6 +165,18 @@
         "tilemapTile": true,
         "displayName": "Dungeon_wall_top1"
     },
+    "tile27": {
+        "data": "hwQQABAAAAC8u7u7vLu7u7y7u////7u7vLv/zP/M/7u8+8zMzL/Lv7z//8/M/Lu//Lu7+8z8u/y/y7y7v8y/+7/8/7u/y7/7v/z/u7/Lv/u//P+7v8u/+7/LvLu/zL/7/Lu7+8z8u/y8///PzPy7v7z7zMzMv8u/vLv/zPzM/7vMzMz////MzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "bottle"
+    },
+    "tile28": {
+        "data": "hwQQABAAAAC8u7u7u7u7u7y7u7u7u7u7vMvMzMzMzLu8y7u7u7vLu7zLu7u7u8u7vMu7zMy8y7u8y7u8u7zLu7zLu7y7vMu7vMu7vLu8y7u8y7vMzLzLu7zLu7u7u8u7vMu7u7u7y7u8y8zMzMzMu7y7u7u7u7u7vLu7u7u7u7vMzMzMzMzMzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile"
+    },
     "level8": {
         "id": "level8",
         "mimeType": "application/mkcd-tilemap",
@@ -209,7 +221,7 @@
     "level9": {
         "id": "level9",
         "mimeType": "application/mkcd-tilemap",
-        "data": "MTAwYjAwMGIwMDA3MDMwMzAzMDMwMjAzMDMwMzAzMDgwNjAxMDEwMTAxMDEwMTAxMDEwMTA0MDYwMTAxMDEwMTAxMDEwMTAxMDEwNDA2MDEwMTAxMDEwMTAxMDEwMTAxMDQwNjAxMDEwMTAxMDEwMTAxMDEwMTA0MDYwMTAxMDEwMTAxMDEwMTAxMDEwNDA2MDEwMTAxMDEwMTAxMDEwMTAxMDQwNjAxMDEwMTAxMDEwMTAxMDEwMTA0MDYwMTAxMDEwMTAxMDEwMTAxMDEwNDA2MDEwMTAxMDEwMTAxMDEwMTAxMDQwYTA1MDUwNTA1MGIwNTA1MDUwNTA5MjIyMjIyMjIyMjIyMDAwMDAwMDAyMDAyMDAwMDAwMDAyMjAwMDAwMDAwMjAwMjAwMDAwMDAwMjIwMDAwMDAwMDIwMDIwMDAwMDAwMDIyMDAwMDAwMDAyMDAyMDAwMDAwMDAyMjAwMDAwMDAwMjAyMjIyMjIyMjIyMDI=",
+        "data": "MTAwYjAwMGIwMDA3MDMwMzAzMDMwMjAzMDMwMzAzMDgwNjAxMDEwMTAxMDEwMTAxMDEwMTA0MDYwMTAxMDEwMTAxMDEwMTAxMDEwNDA2MDEwMTBjMDEwMTAxMGMwMTAxMDQwNjAxMDEwYzAxMDEwMTBjMDEwMTA0MDYwMTAxMGMwMTAxMDEwYzAxMDEwNDA2MDEwMTBjMDEwMTAxMGMwMTAxMDQwNjAxMDEwYzAxMGQwMTBjMDEwMTA0MDYwMTAxMDEwMTAxMDEwMTAxMDEwNDA2MDEwMTAxMDEwMTAxMDEwMTAxMDQwYTA1MDUwNTA1MGIwNTA1MDUwNTA5MjIyMjIyMjIyMjIyMDAwMDAwMDAyMDAyMDAwMDAwMDAyMjAwMDIwMDAyMjAwMjIwMDAyMDAwMjIwMDAyMDAwMjIwMDIyMDAwMjAwMDIyMDAwMjAwMDIyMDAyMDAwMDAwMDAyMjAwMDAwMDAwMjAyMjIyMjIyMjIyMDI=",
         "tileset": [
             "myTiles.transparency16",
             "myTiles.tile18",
@@ -222,7 +234,9 @@
             "myTiles.tile22",
             "myTiles.tile23",
             "myTiles.tile24",
-            "myTiles.tile26"
+            "myTiles.tile26",
+            "myTiles.tile27",
+            "myTiles.tile28"
         ],
         "displayName": "level9"
     },
