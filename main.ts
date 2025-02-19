@@ -9,8 +9,8 @@ namespace SpriteKind {
     export const wall = SpriteKind.create()
     export const Zol_echo = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.bar, function (sprite3, otherSprite2) {
-    LoadLevel(2)
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 1
 })
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     if (controller.A.isPressed() && steinsjekk == 0) {
@@ -36,10 +36,8 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
         }
     }
 })
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    direction = 1
-})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    Echo_health = 2
     Zol_echo2.setImage(assets.image`Wolt_zol`)
     animation.runImageAnimation(
     Zol_echo2,
@@ -59,8 +57,25 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     } else if (direction == 3) {
         Zol_echo2.top = zelda.bottom
         Zol_echo2.x = zelda.x
-        nearest_enemy = null
-shorted_distance = 9999999999
+        nearest_enemy = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Player)
+        shorted_distance = 9999999999
     }
     for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
         Echo_matte = Math.sqrt(Math.abs(value2.x - zelda.x) ** 2 + Math.abs(value2.y - zelda.y) ** 2)
@@ -68,7 +83,7 @@ shorted_distance = 9999999999
             nearest_enemy = value2
         }
     }
-    Zol_echo2.follow(nearest_enemy)
+    Zol_echo2.follow(nearest_enemy, 20)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_shimmer, function (sprite2, otherSprite) {
     animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
@@ -111,7 +126,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             }
         }
         steinsjekk = 0
-        pause(800)
         if (randint(0, 1) == 0) {
             Heart.setImage(assets.image`Heart`)
             Heart.setPosition(projectile.x, projectile.y)
@@ -122,6 +136,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             true
             )
         }
+        pause(800)
         sprites.destroy(projectile, effects.ashes, 100)
     }
 })
@@ -130,11 +145,11 @@ function LoadLevel (Level: number) {
     sprites.destroyAllSpritesOfKind(SpriteKind.wall)
     sprites.destroyAllSpritesOfKind(SpriteKind.bar)
     if (Level == 1) {
-        lev = 1
         tiles.loadMap(tiles.createMap(tilemap`level2`))
+        lev = 1
     } else if (Level == 2) {
-        lev = 2
         tiles.loadMap(tiles.createMap(tilemap`level9`))
+        lev = 2
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -208,10 +223,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite7, otherS
     info.changeLifeBy(-1)
     zelda.startEffect(effects.fire, 100)
     otherSprite6.follow(zelda, 0)
-    if (otherSprite6 == woltzol) {
-        pause(1000)
-        otherSprite6.follow(zelda, 20)
-    }
+    pause(1000)
+    otherSprite6.follow(zelda, 20)
 })
 function Animations () {
     if (steinsjekk >= 1) {
@@ -275,9 +288,13 @@ function Animations () {
         }
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.wall, function (sprite, otherSprite) {
+    LoadLevel(2)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite6, otherSprite5) {
     if (otherSprite5 == woltzol) {
-        if (zol_kill_count == 0) {
+        zol_kill_count += 1
+        if (zol_kill_count == 1) {
             zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
             zol_echo_shimmer.setPosition(otherSprite5.x, otherSprite5.y)
             zol_echo_shimmer.setImage(assets.image`zol`)
@@ -289,7 +306,6 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite6, ot
             true
             )
         }
-        zol_kill_count += 1
     }
     sprites.destroy(otherSprite5, effects.disintegrate, 100)
     sprites.destroy(sprite6, effects.ashes, 100)
@@ -305,17 +321,18 @@ let lev = 0
 let projectile: Sprite = null
 let has_voltzol_echo = 0
 let zol_echo_shimmer: Sprite = null
-let nearest_enemy: Sprite = null
 let Echo_matte = 0
 let shorted_distance = 0
-let direction = 0
+let nearest_enemy: Sprite = null
+let Echo_health = 0
 let steinsjekk = 0
+let direction = 0
 let Zol_echo2: Sprite = null
 let Rock: Sprite = null
 let zelda: Sprite = null
 let Heart: Sprite = null
-LoadLevel(1)
 let nearest_enemy2 = 0
+let A = sprites.create(assets.image`empty`, SpriteKind.UI)
 let Echo_matte2 = 0
 Heart = sprites.create(assets.image`empty`, SpriteKind.Food)
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
@@ -340,16 +357,13 @@ Zol_echo2 = sprites.create(img`
     `, SpriteKind.Zol_echo)
 scene.cameraFollowSprite(zelda)
 info.setLife(5)
-let A = sprites.create(assets.image`empty`, SpriteKind.UI)
 A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
+LoadLevel(1)
 game.onUpdate(function () {
-    if (info.life() == 1) {
-        music.play(music.melodyPlayable(music.sonar), music.PlaybackMode.UntilDone)
-    }
     A.setImage(assets.image`empty`)
-    if (1 == zol_kill_count && has_voltzol_echo == 1 && lev == 1) {
+    if (2 == zol_kill_count && has_voltzol_echo == 1 && lev == 1) {
         music.stopAllSounds()
         music.play(music.createSong(assets.song`You_did_it`), music.PlaybackMode.InBackground)
         Henry_the_turmit = sprites.create(assets.image`Henry_the_turmit`, SpriteKind.npc)
