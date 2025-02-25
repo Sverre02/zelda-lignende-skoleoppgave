@@ -7,7 +7,8 @@ namespace SpriteKind {
     export const wand = SpriteKind.create()
     export const UI = SpriteKind.create()
     export const wall = SpriteKind.create()
-    export const Zol_echo = SpriteKind.create()
+    export const echo = SpriteKind.create()
+    export const Follow = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 1
@@ -21,13 +22,13 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
         CollisionDirection.Bottom
         ]) {
             if (tiles.tileIsWall(tiles.locationInDirection(tiles.locationOfSprite(zelda), value))) {
-                if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`Stone`)) {
-                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`Stone_replacementile`)
+                if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), myTiles.tile3)) {
+                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), myTiles.tile5)
                     tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
                     steinsjekk = 1
                     Rock.setImage(assets.image`carry_rock`)
-                } else if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`bottle`)) {
-                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), assets.tile`Dungeon floor`)
+                } else if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), myTiles.tile27)) {
+                    tiles.setTileAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), myTiles.tile18)
                     tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
                     steinsjekk = 2
                     Rock.setImage(assets.image`Carry_bottle`)
@@ -37,8 +38,25 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    Echo_health = 2
-    Zol_echo2.setImage(assets.image`Wolt_zol`)
+    sprites.destroy(Zol_echo2)
+    Zol_echo2 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.echo)
     animation.runImageAnimation(
     Zol_echo2,
     assets.animation`Wolt_zol_Animation`,
@@ -57,39 +75,43 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     } else if (direction == 3) {
         Zol_echo2.top = zelda.bottom
         Zol_echo2.x = zelda.x
-        nearest_enemy = sprites.create(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpriteKind.Player)
-        shorted_distance = 9999999999
     }
-    for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
-        Echo_matte = Math.sqrt(Math.abs(value2.x - zelda.x) ** 2 + Math.abs(value2.y - zelda.y) ** 2)
-        if (Echo_matte < shorted_distance) {
-            nearest_enemy = value2
+    shorted_distance = 99999
+    nearest_enemy = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Follow)
+    if (sprites.allOfKind(SpriteKind.Enemy).length == 0) {
+    	
+    } else {
+        for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
+            Echo_matte = Math.sqrt(Math.abs(value2.x - zelda.x) ** 2 + Math.abs(value2.y - zelda.y) ** 2)
+            if (Echo_matte < shorted_distance) {
+                nearest_enemy = value2
+            }
         }
+        Zol_echo2.follow(nearest_enemy, 20)
     }
-    Zol_echo2.follow(nearest_enemy, 20)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_shimmer, function (sprite2, otherSprite) {
     animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
     effects.clearParticles(zol_echo_shimmer)
     zol_echo_shimmer.setImage(assets.image`empty`)
-    game.setDialogFrame(assets.image`Info_box`)
+    dialog("Basic")
     game.showLongText("You found a echo!", DialogLayout.Bottom)
     has_voltzol_echo += 1
 })
@@ -144,30 +166,66 @@ function LoadLevel (Level: number) {
     sprites.destroyAllSpritesOfKind(SpriteKind.npc)
     sprites.destroyAllSpritesOfKind(SpriteKind.wall)
     sprites.destroyAllSpritesOfKind(SpriteKind.bar)
+    sprites.destroyAllSpritesOfKind(SpriteKind.echo)
     if (Level == 1) {
         tiles.loadMap(tiles.createMap(tilemap`level2`))
         lev = 1
     } else if (Level == 2) {
         tiles.loadMap(tiles.createMap(tilemap`level9`))
         lev = 2
+    } else if (Level == 3) {
+        tiles.loadMap(tiles.createMap(tilemap`level3`))
+        lev = 3
+    }
+}
+function dialog (who: string) {
+    if (who == "Basic") {
+        game.setDialogFrame(assets.image`Info_box`)
+        game.setDialogCursor(assets.image`Basic button`)
+    } else if (who == "Henry") {
+        game.setDialogFrame(assets.image`Henry_plate`)
+        game.setDialogCursor(assets.image`Rupee_cursor`)
+    } else if (who == "Nayru") {
+        game.setDialogFrame(assets.image`Nayru_dialogbox`)
+        game.setDialogCursor(assets.image`Nayru dialoge`)
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 0
 })
 tiles.onMapLoaded(function (tilemap2) {
+    for (let value of tiles.getTilesByType(myTiles.tile15)) {
+        bar_up = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
+        tiles.placeOnTile(bar_up, value)
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(myTiles.tile34)) {
+        Bar_down = sprites.create(assets.image`Gate_bottom`, SpriteKind.bar)
+        tiles.placeOnTile(Bar_down, value)
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(myTiles.tile35)) {
+        Bar_right = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
+        tiles.placeOnTile(Bar_right, value)
+        tiles.setWallAt(value, true)
+    }
+    for (let value of tiles.getTilesByType(myTiles.tile36)) {
+        Bar_left = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
+        tiles.placeOnTile(Bar_left, value)
+        tiles.setWallAt(value, true)
+    }
     if (lev == 1) {
         tiles.setWallAt(tiles.getTileLocation(7, 0), true)
         wall_hole = sprites.create(assets.image`Wall_hole`, SpriteKind.wall)
-        bar2 = sprites.create(assets.image`Gate`, SpriteKind.bar)
+        bar_up = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
         tiles.placeOnTile(wall_hole, tiles.getTileLocation(7, 0))
-        tiles.placeOnTile(bar2, tiles.getTileLocation(7, 0))
+        tiles.placeOnTile(bar_up, tiles.getTileLocation(7, 0))
         wall_hole.z = 1
         music.play(music.createSong(assets.song`Battle`), music.PlaybackMode.LoopingInBackground)
         game.setGameOverEffect(false, effects.melt)
         game.setGameOverPlayable(false, music.melodyPlayable(music.spooky), true)
         Henry_the_turmit = sprites.create(assets.image`empty`, SpriteKind.npc)
-        for (let value22 of tiles.getTilesByType(assets.tile`Zol_placeholder`)) {
+        for (let value22 of tiles.getTilesByType(myTiles.tile2)) {
             woltzol = sprites.create(assets.image`Wolt_zol`, SpriteKind.Enemy)
             tiles.placeOnTile(woltzol, value22)
             animation.runImageAnimation(
@@ -179,17 +237,16 @@ tiles.onMapLoaded(function (tilemap2) {
             woltzol.follow(zelda, 20)
         }
     } else if (lev == 2) {
-        for (let value3 of tiles.getTilesByType(assets.tile`Door_Placeholder`)) {
-            dungeon_wall = sprites.create(assets.image`Dungeon doorway`, SpriteKind.wall)
-            bar2 = sprites.create(assets.image`Gate`, SpriteKind.bar)
-            tiles.placeOnTile(dungeon_wall, value3)
-            dungeon_wall.z = 1
-            tiles.placeOnTile(bar2, value3)
-        }
+        tiles.setWallAt(tiles.getTileLocation(7, 0), true)
         tiles.placeOnTile(zelda, tiles.getTileLocation(5, 9))
-        zelda.setImage(assets.image`Zelda_back`)
-        pause(500)
-        tiles.setTileAt(tiles.getTileLocation(5, 10), assets.tile`Dungeon_wall_top0`)
+        animation.runImageAnimation(
+        Bar_down,
+        assets.animation`Bar_animation_top`,
+        500,
+        false
+        )
+    } else if (lev == 3) {
+        tiles.placeOnTile(zelda, tiles.getTileLocation(2, 18))
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSprite3) {
@@ -203,19 +260,36 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSp
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 2
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.wall, function (sprite3, otherSprite2) {
+    if (lev == 1) {
+        dialog("Henry")
+        game.showLongText("Hey you think you can just walk of with that wand.\\n you don't have any money well you touch it you bye it so you have to pay me in some way. what about you find the treasure in that cave and give it me. (huh huh huh i'm gonna be so rich)", DialogLayout.Bottom)
+        LoadLevel(2)
+    } else if (lev == 2) {
+        LoadLevel(3)
+    }
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite5, otherSprite4) {
     sprites.destroy(wand2)
-    game.setDialogFrame(assets.image`Info_box`)
+    dialog("Basic")
     game.showLongText("You Got a wand", DialogLayout.Bottom)
     animation.runImageAnimation(
-    bar2,
-    assets.animation`Bar_animation`,
+    bar_up,
+    assets.animation`Bar_animation_top`,
     500,
     false
     )
     pause(5000)
     tiles.setWallAt(tiles.getTileLocation(7, 0), false)
 })
+function statusbar_rules_en () {
+    statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+    statusbar.setColor(2, 15, 5)
+    statusbar.setBarBorder(1, 15)
+    statusbar.max = 2
+    statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+    statusbar.setFlag(SpriteFlag.Invisible, true)
+}
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 3
 })
@@ -288,87 +362,105 @@ function Animations () {
         }
     }
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.wall, function (sprite, otherSprite) {
-    LoadLevel(2)
+sprites.onOverlap(SpriteKind.echo, SpriteKind.Enemy, function (sprite, otherSprite) {
+    statusbar.setFlag(SpriteFlag.Invisible, false)
+    if (0 == statusbar.value) {
+        statusbar_rules_en()
+    }
+    statusbar.attachToSprite(otherSprite)
+    if (false) {
+    	
+    } else {
+        statusbar.value += -1
+    }
+    statusbar.setFlag(SpriteFlag.Invisible, false)
+    sprites.destroy(sprite, effects.starField, 100)
+    if (0 == statusbar.value) {
+        if (false) {
+        	
+        } else {
+            kill_count += 1
+            statusbar.setFlag(SpriteFlag.Invisible, true)
+            sprites.destroy(otherSprite)
+        }
+    }
+})
+sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
+    if (lev == 2) {
+        animation.runImageAnimation(
+        bar_up,
+        assets.animation`Bar_animation_top`,
+        500,
+        false
+        )
+        tiles.setWallAt(tiles.getTileLocation(7, 0), false)
+    }
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite6, otherSprite5) {
-    if (otherSprite5 == woltzol) {
-        zol_kill_count += 1
-        if (zol_kill_count == 1) {
-            zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
-            zol_echo_shimmer.setPosition(otherSprite5.x, otherSprite5.y)
-            zol_echo_shimmer.setImage(assets.image`zol`)
-            zol_echo_shimmer.startEffect(effects.starField)
-            animation.runImageAnimation(
-            zol_echo_shimmer,
-            assets.animation`Zol_echo_shimmer_animation`,
-            500,
-            true
-            )
-        }
+    kill_count += 1
+    if (kill_count == 1 && woltzol == otherSprite5 && kill_count == 1) {
+        zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
+        zol_echo_shimmer.setPosition(otherSprite5.x, otherSprite5.y)
+        zol_echo_shimmer.setImage(assets.image`zol`)
+        zol_echo_shimmer.startEffect(effects.starField)
+        animation.runImageAnimation(
+        zol_echo_shimmer,
+        assets.animation`Zol_echo_shimmer_animation`,
+        500,
+        true
+        )
     }
     sprites.destroy(otherSprite5, effects.disintegrate, 100)
     sprites.destroy(sprite6, effects.ashes, 100)
 })
-let zol_kill_count = 0
+let mySprite = 0
+let kill_count = 0
+let statusbar: StatusBarSprite = null
 let wand2: Sprite = null
-let dungeon_wall: Sprite = null
 let woltzol: Sprite = null
 let Henry_the_turmit: Sprite = null
-let bar2: Sprite = null
 let wall_hole: Sprite = null
+let Bar_left: Sprite = null
+let Bar_right: Sprite = null
+let Bar_down: Sprite = null
+let bar_up: Sprite = null
 let lev = 0
 let projectile: Sprite = null
 let has_voltzol_echo = 0
 let zol_echo_shimmer: Sprite = null
 let Echo_matte = 0
-let shorted_distance = 0
 let nearest_enemy: Sprite = null
-let Echo_health = 0
+let shorted_distance = 0
+let Zol_echo2: Sprite = null
 let steinsjekk = 0
 let direction = 0
-let Zol_echo2: Sprite = null
 let Rock: Sprite = null
 let zelda: Sprite = null
 let Heart: Sprite = null
+statusbar_rules_en()
+let Echo_matte2 = 0
 let nearest_enemy2 = 0
 let A = sprites.create(assets.image`empty`, SpriteKind.UI)
-let Echo_matte2 = 0
 Heart = sprites.create(assets.image`empty`, SpriteKind.Food)
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
 Rock = sprites.create(assets.image`empty`, SpriteKind.Throwable)
-Zol_echo2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Zol_echo)
 scene.cameraFollowSprite(zelda)
 info.setLife(5)
 A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
-LoadLevel(1)
+LoadLevel(3)
 game.onUpdate(function () {
     A.setImage(assets.image`empty`)
-    if (2 == zol_kill_count && has_voltzol_echo == 1 && lev == 1) {
+    if (info.life() == 0) {
+        zelda.startEffect(effects.fire)
+    }
+    if (2 == kill_count && has_voltzol_echo == 1 && lev == 1) {
         music.stopAllSounds()
         music.play(music.createSong(assets.song`You_did_it`), music.PlaybackMode.InBackground)
         Henry_the_turmit = sprites.create(assets.image`Henry_the_turmit`, SpriteKind.npc)
-        zol_kill_count = 0
-        tiles.placeOnRandomTile(Henry_the_turmit, assets.tile`Henry_hiding`)
+        kill_count = 0
+        tiles.placeOnRandomTile(Henry_the_turmit, myTiles.tile4)
         Henry_the_turmit.setImage(assets.image`Henry_the_turmit`)
         animation.runImageAnimation(
         Henry_the_turmit,
@@ -376,12 +468,12 @@ game.onUpdate(function () {
         500,
         true
         )
-        tiles.setTileAt(tiles.getTileLocation(9, 1), assets.tile`myTile4`)
+        tiles.setTileAt(tiles.getTileLocation(9, 1), myTiles.tile16)
         has_voltzol_echo = 5
     }
-    if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), assets.tile`myTile4`)) {
-        game.setDialogFrame(assets.image`Henry_plate`)
+    if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), myTiles.tile16)) {
         A.setImage(assets.image`Button`)
+        dialog("Henry")
         if (controller.A.isPressed() && 5 == has_voltzol_echo) {
             has_voltzol_echo += 1
             game.showLongText("Hello there. Thanks for taking care of Those pesky zols. My name is Henry the Turmit. Vendor of rare goods. As a thank you i will open the door over there", DialogLayout.Bottom)
@@ -399,6 +491,21 @@ game.onUpdate(function () {
             A.setImage(assets.image`Button`)
             game.showLongText("Go ahead try it ", DialogLayout.Bottom)
         }
+    }
+    if (lev == 2 && tiles.tileIs(tiles.locationOfSprite(zelda), myTiles.tile28) && mySprite == 0) {
+        effects.starField.startScreenEffect(5000)
+        dialog("Nayru")
+        game.showLongText("Zelda\\n \\n That wand was created by me to help a hero.\\n I see you've gotten yourself into trouble.\\n Well there's probably nothing else you can do but find the treasure and give it to him, Turmits can be dangerous when they're angry\\n \\n I nearly forgot i have to teach how to use the wand.\\n \\n When you make a new echo the old one Automaticlly get destroyed. If the enemy and your echo is equally strong both will get destroyed. your echo will often be weaker", DialogLayout.Bottom)
+        mySprite = 1
+        woltzol = sprites.create(assets.image`zol`, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        woltzol,
+        assets.animation`Wolt_zol_Animation`,
+        650,
+        true
+        )
+        tiles.placeOnTile(woltzol, tiles.getTileLocation(5, 2))
+        woltzol.follow(zelda, 20)
     }
     Animations()
 })
