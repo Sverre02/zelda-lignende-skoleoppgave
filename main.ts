@@ -215,16 +215,19 @@ tiles.onMapLoaded(function (tilemap2) {
         tiles.setWallAt(value, true)
     }
     if (lev == 1) {
-        tiles.setWallAt(tiles.getTileLocation(7, 0), true)
-        wall_hole = sprites.create(assets.image`Wall_hole`, SpriteKind.wall)
-        bar_up = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
-        tiles.placeOnTile(wall_hole, tiles.getTileLocation(7, 0))
         tiles.placeOnTile(bar_up, tiles.getTileLocation(7, 0))
-        wall_hole.z = 1
         music.play(music.createSong(assets.song`Battle`), music.PlaybackMode.LoopingInBackground)
         game.setGameOverEffect(false, effects.melt)
         game.setGameOverPlayable(false, music.melodyPlayable(music.spooky), true)
         Henry_the_turmit = sprites.create(assets.image`empty`, SpriteKind.npc)
+        for (let value of tiles.getTilesByType(sprites.builtin.forestTiles10)) {
+            bar_basic = sprites.create(assets.image`Gate_top`, SpriteKind.bar)
+            wall_hole = sprites.create(assets.image`Wall_hole`, SpriteKind.wall)
+            wall_hole.z = 1010
+            tiles.placeOnTile(wall_hole, value)
+            tiles.placeOnTile(bar_basic, value)
+            tiles.setWallAt(value, true)
+        }
         for (let value22 of tiles.getTilesByType(myTiles.tile2)) {
             woltzol = sprites.create(assets.image`Wolt_zol`, SpriteKind.Enemy)
             tiles.placeOnTile(woltzol, value22)
@@ -274,7 +277,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite5, otherSp
     dialog("Basic")
     game.showLongText("You Got a wand", DialogLayout.Bottom)
     animation.runImageAnimation(
-    bar_up,
+    bar_basic,
     assets.animation`Bar_animation_top`,
     500,
     false
@@ -418,8 +421,9 @@ let kill_count = 0
 let statusbar: StatusBarSprite = null
 let wand2: Sprite = null
 let woltzol: Sprite = null
-let Henry_the_turmit: Sprite = null
 let wall_hole: Sprite = null
+let bar_basic: Sprite = null
+let Henry_the_turmit: Sprite = null
 let Bar_left: Sprite = null
 let Bar_right: Sprite = null
 let Bar_down: Sprite = null
@@ -449,7 +453,7 @@ info.setLife(5)
 A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
-LoadLevel(3)
+LoadLevel(1)
 game.onUpdate(function () {
     A.setImage(assets.image`empty`)
     if (info.life() == 0) {
