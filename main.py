@@ -4,17 +4,11 @@ class SpriteKind:
     Throwable = SpriteKind.create()
     Echo_shimmer = SpriteKind.create()
     npc = SpriteKind.create()
-    bar = SpriteKind.create()
     wand = SpriteKind.create()
     UI = SpriteKind.create()
     wall = SpriteKind.create()
-    Zol_echo = SpriteKind.create()
+    echo = SpriteKind.create()
     Follow = SpriteKind.create()
-
-def on_up_pressed():
-    global direction
-    direction = 1
-controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def on_hit_wall(sprite, location):
     global steinsjekk
@@ -25,61 +19,42 @@ def on_hit_wall(sprite, location):
             CollisionDirection.BOTTOM]:
             if tiles.tile_is_wall(tiles.location_in_direction(tiles.location_of_sprite(zelda), value)):
                 if tiles.tile_is(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
-                    assets.tile("""
-                        Stone
-                    """)):
+                    myTiles.tile3):
                     tiles.set_tile_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
-                        assets.tile("""
-                            Stone_replacementile
-                        """))
+                        myTiles.tile5)
                     tiles.set_wall_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
                         False)
                     steinsjekk = 1
                     Rock.set_image(assets.image("""
                         carry_rock
-                    """))
-                elif tiles.tile_is(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
-                    assets.tile("""
-                        bottle
-                    """)):
-                    tiles.set_tile_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
-                        assets.tile("""
-                            Dungeon floor
                         """))
+                elif tiles.tile_is(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
+                    myTiles.tile27):
+                    tiles.set_tile_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
+                        myTiles.tile18)
                     tiles.set_wall_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
                         False)
                     steinsjekk = 2
                     Rock.set_image(assets.image("""
                         Carry_bottle
-                    """))
+                        """))
 scene.on_hit_wall(SpriteKind.player, on_hit_wall)
+
+def on_up_pressed():
+    global direction
+    direction = 1
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def on_b_pressed():
     global Zol_echo2, shorted_distance, nearest_enemy, Echo_matte
     sprites.destroy(Zol_echo2)
-    Zol_echo2 = sprites.create(img("""
-            . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . .
-        """),
-        SpriteKind.Zol_echo)
+    Zol_echo2 = sprites.create(assets.image("""
+        tuhj
+        """), SpriteKind.echo)
     animation.run_image_animation(Zol_echo2,
         assets.animation("""
             Wolt_zol_Animation
-        """),
+            """),
         650,
         True)
     if direction == 0:
@@ -94,25 +69,25 @@ def on_b_pressed():
     elif direction == 3:
         Zol_echo2.top = zelda.bottom
         Zol_echo2.x = zelda.x
-    shorted_distance = 9999999999
+    shorted_distance = 99999
     nearest_enemy = sprites.create(img("""
-            . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . .
-        """),
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            . . . . . . . . . . . . . . . .
+            """),
         SpriteKind.Follow)
     if len(sprites.all_of_kind(SpriteKind.enemy)) == 0:
         pass
@@ -130,7 +105,7 @@ def on_on_overlap(sprite2, otherSprite):
     effects.clear_particles(zol_echo_shimmer)
     zol_echo_shimmer.set_image(assets.image("""
         empty
-    """))
+        """))
     dialog("Basic")
     game.show_long_text("You found a echo!", DialogLayout.BOTTOM)
     has_voltzol_echo += 1
@@ -141,75 +116,75 @@ def on_a_pressed():
     if steinsjekk >= 1:
         Rock.set_image(assets.image("""
             empty
-        """))
+            """))
         if steinsjekk == 1:
             if direction == 0:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     carry_rock
-                """), Rock, -50, 10)
+                    """), Rock, -50, 10)
                 zelda.set_image(assets.image("""
                     Zelda_left
-                """))
+                    """))
             elif direction == 1:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     carry_rock
-                """), Rock, 0, -50)
+                    """), Rock, 0, -50)
                 zelda.set_image(assets.image("""
                     Zelda_back
-                """))
+                    """))
             elif direction == 2:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     carry_rock
-                """), Rock, 50, 10)
+                    """), Rock, 50, 10)
                 zelda.set_image(assets.image("""
                     zelda_right
-                """))
+                    """))
             elif direction == 3:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     carry_rock
-                """), Rock, 0, 50)
+                    """), Rock, 0, 50)
                 zelda.set_image(assets.image("""
                     Zelda_front
-                """))
+                    """))
         elif steinsjekk == 2:
             if direction == 0:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     Carry_bottle
-                """), Rock, -50, 10)
+                    """), Rock, -50, 10)
                 zelda.set_image(assets.image("""
                     Zelda_left
-                """))
+                    """))
             elif direction == 1:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     Carry_bottle
-                """), Rock, 0, -50)
+                    """), Rock, 0, -50)
                 zelda.set_image(assets.image("""
                     Zelda_back
-                """))
+                    """))
             elif direction == 2:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     Carry_bottle
-                """), Rock, 50, 10)
+                    """), Rock, 50, 10)
                 zelda.set_image(assets.image("""
                     zelda_right
-                """))
+                    """))
             elif direction == 3:
                 projectile = sprites.create_projectile_from_sprite(assets.image("""
                     Carry_bottle
-                """), Rock, 0, 50)
+                    """), Rock, 0, 50)
                 zelda.set_image(assets.image("""
                     Zelda_front
-                """))
+                    """))
         steinsjekk = 0
         if randint(0, 1) == 0:
             Heart.set_image(assets.image("""
                 Heart
-            """))
+                """))
             Heart.set_position(projectile.x, projectile.y)
             animation.run_image_animation(Heart,
                 assets.animation("""
                     Heart_animation
-                """),
+                    """),
                 500,
                 True)
         pause(800)
@@ -220,70 +195,44 @@ def LoadLevel(Level: number):
     global lev
     sprites.destroy_all_sprites_of_kind(SpriteKind.npc)
     sprites.destroy_all_sprites_of_kind(SpriteKind.wall)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.bar)
-    sprites.destroy_all_sprites_of_kind(SpriteKind.Zol_echo)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.echo)
     if Level == 1:
         tiles.load_map(tiles.create_map(tilemap("""
             level2
-        """)))
+            """)))
         lev = 1
     elif Level == 2:
         tiles.load_map(tiles.create_map(tilemap("""
             level9
-        """)))
+            """)))
         lev = 2
+    elif Level == 3:
+        tiles.load_map(tiles.create_map(tilemap("""
+            level3
+            """)))
+        lev = 3
 def dialog(who: str):
     if who == "Basic":
         game.set_dialog_frame(assets.image("""
             Info_box
-        """))
-        game.set_dialog_cursor(img("""
-            . . . . 6 6 6 6 6 6 6 . . . . 
-                        . . 6 6 7 7 7 7 7 7 7 6 6 . . 
-                        . 6 6 7 7 7 8 8 8 7 7 7 6 6 . 
-                        . 6 7 7 7 8 8 7 8 8 7 7 7 6 . 
-                        . c 7 7 8 8 8 8 8 8 8 7 7 c . 
-                        . c 9 7 8 7 7 7 7 7 8 7 9 c . 
-                        . c 9 9 7 7 7 7 7 7 7 9 9 c . 
-                        . c 6 6 9 9 9 9 9 9 9 6 6 c . 
-                        c c 6 6 6 6 6 6 6 6 6 6 6 c c 
-                        c d c c 6 6 6 6 6 6 6 c c d c 
-                        c d d d c c c c c c c d d d c 
-                        c c b d d d d d d d d d b c c 
-                        c c c c c b b b b b c c c c c 
-                        c c b b b b b b b b b b b c c 
-                        . c c b b b b b b b b b c c . 
-                        . . . c c c c c c c c c . . .
-        """))
+            """))
+        game.set_dialog_cursor(assets.image("""
+            Basic button
+            """))
     elif who == "Henry":
         game.set_dialog_frame(assets.image("""
             Henry_plate
-        """))
+            """))
         game.set_dialog_cursor(assets.image("""
             Rupee_cursor
-        """))
+            """))
     elif who == "Nayru":
         game.set_dialog_frame(assets.image("""
             Nayru_dialogbox
-        """))
-        game.set_dialog_cursor(img("""
-            . . . . . . . . . . . . . . . . 
-                        . . . . 8 8 . . . 8 8 . . . . . 
-                        . . . 8 8 . f f f . 8 8 . . . . 
-                        . . . 8 . f 6 6 8 f . 8 . . . . 
-                        . . . 8 . f 6 8 8 f . 8 . . . . 
-                        . . . 8 . f 8 8 9 f . 8 . . . . 
-                        . . . 8 8 . f f f . 8 8 . . . . 
-                        . 8 8 8 8 8 . . . 8 8 8 8 8 . . 
-                        8 8 . . . 8 8 . 8 8 . . . 8 8 . 
-                        8 . f f f . 8 8 8 . f f f . 8 8 
-                        . f 6 6 8 f . 8 . f 6 6 8 f . 8 
-                        . f 6 8 8 f . 8 . f 6 8 8 f . . 
-                        . f 8 8 9 f . 8 . f 8 8 9 f . . 
-                        . . f f f . 8 8 8 . f f f . . . 
-                        . . . . . 8 8 . 8 8 . . . . . . 
-                        . . . . 8 8 . . . 8 8 . . . . .
-        """))
+            """))
+        game.set_dialog_cursor(assets.image("""
+            Nayru dialoge
+            """))
 
 def on_left_pressed():
     global direction
@@ -291,59 +240,70 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def on_map_loaded(tilemap2):
-    global wall_hole, bar2, Henry_the_turmit, woltzol, dungeon_wall
+    global bar_up, Bar_down, Bar_right, Bar_left, Henry_the_turmit, bar_basic, wall_hole, woltzol
+    for value3 in tiles.get_tiles_by_type(myTiles.tile15):
+        bar_up = sprites.create(assets.image("""
+            Gate_top
+            """), SpriteKind.wall)
+        tiles.place_on_tile(bar_up, value3)
+        tiles.set_wall_at(value3, True)
+    for value4 in tiles.get_tiles_by_type(myTiles.tile34):
+        Bar_down = sprites.create(assets.image("""
+            Gate_bottom
+            """), SpriteKind.wall)
+        tiles.place_on_tile(Bar_down, value4)
+        tiles.set_wall_at(value4, True)
+    for value5 in tiles.get_tiles_by_type(myTiles.tile35):
+        Bar_right = sprites.create(assets.image("""
+            Gate_top
+            """), SpriteKind.wall)
+        tiles.place_on_tile(Bar_right, value5)
+        tiles.set_wall_at(value5, True)
+    for value6 in tiles.get_tiles_by_type(myTiles.tile36):
+        Bar_left = sprites.create(assets.image("""
+            Gate_top
+            """), SpriteKind.wall)
+        tiles.place_on_tile(Bar_left, value6)
+        tiles.set_wall_at(value6, True)
     if lev == 1:
-        tiles.set_wall_at(tiles.get_tile_location(7, 0), True)
-        wall_hole = sprites.create(assets.image("""
-            Wall_hole
-        """), SpriteKind.wall)
-        bar2 = sprites.create(assets.image("""
-            Gate
-        """), SpriteKind.bar)
-        tiles.place_on_tile(wall_hole, tiles.get_tile_location(7, 0))
-        tiles.place_on_tile(bar2, tiles.get_tile_location(7, 0))
-        wall_hole.z = 1
+        tiles.place_on_tile(bar_up, tiles.get_tile_location(7, 0))
         music.play(music.create_song(assets.song("""
                 Battle
-            """)),
+                """)),
             music.PlaybackMode.LOOPING_IN_BACKGROUND)
         game.set_game_over_effect(False, effects.melt)
         game.set_game_over_playable(False, music.melody_playable(music.spooky), True)
         Henry_the_turmit = sprites.create(assets.image("""
             empty
-        """), SpriteKind.npc)
-        for value22 in tiles.get_tiles_by_type(assets.tile("""
-            Zol_placeholder
-        """)):
+            """), SpriteKind.npc)
+        for value7 in tiles.get_tiles_by_type(sprites.builtin.forest_tiles10):
+            bar_basic = sprites.create(assets.image("""
+                Gate_top
+                """), SpriteKind.wall)
+            wall_hole = sprites.create(assets.image("""
+                Wall_hole
+                """), SpriteKind.wall)
+            wall_hole.z = 1010
+            tiles.place_on_tile(wall_hole, value7)
+            tiles.place_on_tile(bar_basic, value7)
+            tiles.set_wall_at(value7, True)
+        for value22 in tiles.get_tiles_by_type(myTiles.tile2):
             woltzol = sprites.create(assets.image("""
                 Wolt_zol
-            """), SpriteKind.enemy)
+                """), SpriteKind.enemy)
             tiles.place_on_tile(woltzol, value22)
             animation.run_image_animation(woltzol,
                 assets.animation("""
                     Wolt_zol_Animation
-                """),
+                    """),
                 650,
                 True)
             woltzol.follow(zelda, 20)
     elif lev == 2:
-        for value3 in tiles.get_tiles_by_type(assets.tile("""
-            Door_Placeholder
-        """)):
-            dungeon_wall = sprites.create(assets.image("""
-                Dungeon doorway
-            """), SpriteKind.wall)
-            bar2 = sprites.create(assets.image("""
-                Gate
-            """), SpriteKind.bar)
-            tiles.place_on_tile(dungeon_wall, value3)
-            dungeon_wall.z = 1
-            tiles.place_on_tile(bar2, value3)
+        tiles.set_wall_at(tiles.get_tile_location(7, 0), True)
         tiles.place_on_tile(zelda, tiles.get_tile_location(5, 9))
-        tiles.set_tile_at(tiles.get_tile_location(5, 10),
-            assets.tile("""
-                Dungeon_wall_top0
-            """))
+    elif lev == 3:
+        tiles.place_on_tile(zelda, tiles.get_tile_location(2, 18))
 tiles.on_map_loaded(on_map_loaded)
 
 def on_on_overlap2(sprite4, otherSprite3):
@@ -360,25 +320,37 @@ def on_right_pressed():
 controller.right.on_event(ControllerButtonEvent.PRESSED, on_right_pressed)
 
 def on_on_overlap3(sprite3, otherSprite2):
-    dialog("Henry")
-    game.show_long_text("Hey you think you can just walk of with that wand.\\n you don't have any money well you touch it you bye it so you have to pay me in some way. what about you find the treasure in that cave and give it me. (huh huh huh i'm gonna be so rich)",
-        DialogLayout.BOTTOM)
-    LoadLevel(2)
+    if lev == 1:
+        dialog("Henry")
+        game.show_long_text("Hey you think you can just walk of with that wand.\\n you don't have any money well you touch it you bye it so you have to pay me in some way. what about you find the treasure in that cave and give it me. (huh huh huh i'm gonna be so rich)",
+            DialogLayout.BOTTOM)
+        LoadLevel(2)
+    elif lev == 2:
+        LoadLevel(3)
 sprites.on_overlap(SpriteKind.player, SpriteKind.wall, on_on_overlap3)
 
 def on_on_overlap4(sprite5, otherSprite4):
     sprites.destroy(wand2)
     dialog("Basic")
     game.show_long_text("You Got a wand", DialogLayout.BOTTOM)
-    animation.run_image_animation(bar2,
+    animation.run_image_animation(bar_basic,
         assets.animation("""
-            Bar_animation
-        """),
+            Bar_animation_top
+            """),
         500,
         False)
     pause(5000)
     tiles.set_wall_at(tiles.get_tile_location(7, 0), False)
 sprites.on_overlap(SpriteKind.player, SpriteKind.wand, on_on_overlap4)
+
+def statusbar_rules_en():
+    global statusbar
+    statusbar = statusbars.create(20, 4, StatusBarKind.enemy_health)
+    statusbar.set_color(2, 15, 5)
+    statusbar.set_bar_border(1, 15)
+    statusbar.max = 2
+    statusbar.set_status_bar_flag(StatusBarFlag.SMOOTH_TRANSITION, True)
+    statusbar.set_flag(SpriteFlag.INVISIBLE, True)
 
 def on_down_pressed():
     global direction
@@ -401,38 +373,38 @@ def Animations():
             if Math.round(zelda.x / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     Zelda_left_rock
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_left_rock_alt
-                """))
+                    """))
         elif zelda.vx > 0:
             if Math.round(zelda.x / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     zelda_right_rock
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     zelda_right_rock_alt
-                """))
+                    """))
         elif zelda.vy > 0:
             if Math.round(zelda.y / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     Zelda_front_stone
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_front_rock_alt
-                """))
+                    """))
         elif zelda.vy < 0:
             if 0 == Math.round(zelda.y / 10) % 2:
                 zelda.set_image(assets.image("""
                     Zelda_back_rock
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_back_rock_alt
-                """))
+                    """))
         else:
             pass
     else:
@@ -441,70 +413,110 @@ def Animations():
             if Math.round(zelda.x / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     Zelda_left
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_left_alt
-                """))
+                    """))
         elif zelda.vx > 0:
             if Math.round(zelda.x / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     zelda_right
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_right_alt
-                """))
+                    """))
         elif zelda.vy > 0:
             if Math.round(zelda.y / 10) % 2 == 0:
                 zelda.set_image(assets.image("""
                     Zelda_front
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_front_alt
-                """))
+                    """))
         elif zelda.vy < 0:
             if 0 == Math.round(zelda.y / 10) % 2:
                 zelda.set_image(assets.image("""
                     Zelda_back
-                """))
+                    """))
             else:
                 zelda.set_image(assets.image("""
                     Zelda_back_alt
-                """))
+                    """))
         else:
             pass
 
 def on_on_overlap6(sprite6, otherSprite5):
+    global kill_count
+    statusbar.set_flag(SpriteFlag.INVISIBLE, False)
+    if 0 == statusbar.value:
+        statusbar_rules_en()
+    statusbar.attach_to_sprite(otherSprite5)
+    if False:
+        pass
+    else:
+        statusbar.value += -1
+    statusbar.set_flag(SpriteFlag.INVISIBLE, False)
+    sprites.destroy(sprite6, effects.star_field, 100)
+    if 0 == statusbar.value:
+        if False:
+            pass
+        else:
+            kill_count += 1
+            statusbar.set_flag(SpriteFlag.INVISIBLE, True)
+            sprites.destroy(otherSprite5)
+sprites.on_overlap(SpriteKind.echo, SpriteKind.enemy, on_on_overlap6)
+
+def on_on_destroyed(sprite8):
+    global mySprite
+    if lev == 2 and mySprite == 2:
+        mySprite = 2
+        animation.run_image_animation(bar_up,
+            assets.animation("""
+                Bar_animation_top
+                """),
+            500,
+            False)
+        pause(5000)
+        tiles.set_wall_at(tiles.get_tile_location(5, 0), False)
+sprites.on_destroyed(SpriteKind.enemy, on_on_destroyed)
+
+def on_on_overlap7(sprite62, otherSprite52):
     global kill_count, zol_echo_shimmer
     kill_count += 1
-    if kill_count == 1:
+    if kill_count == 1 and woltzol == otherSprite52 and kill_count == 1:
         zol_echo_shimmer = sprites.create(assets.image("""
             zol
-        """), SpriteKind.Echo_shimmer)
-        zol_echo_shimmer.set_position(otherSprite5.x, otherSprite5.y)
+            """), SpriteKind.Echo_shimmer)
+        zol_echo_shimmer.set_position(otherSprite52.x, otherSprite52.y)
         zol_echo_shimmer.set_image(assets.image("""
             zol
-        """))
+            """))
         zol_echo_shimmer.start_effect(effects.star_field)
         animation.run_image_animation(zol_echo_shimmer,
             assets.animation("""
                 Zol_echo_shimmer_animation
-            """),
+                """),
             500,
             True)
-    sprites.destroy(otherSprite5, effects.disintegrate, 100)
-    sprites.destroy(sprite6, effects.ashes, 100)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap6)
+    sprites.destroy(otherSprite52, effects.disintegrate, 100)
+    sprites.destroy(sprite62, effects.ashes, 100)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap7)
 
+mySprite = 0
 kill_count = 0
+statusbar: StatusBarSprite = None
 wand2: Sprite = None
-dungeon_wall: Sprite = None
 woltzol: Sprite = None
-Henry_the_turmit: Sprite = None
-bar2: Sprite = None
 wall_hole: Sprite = None
+bar_basic: Sprite = None
+Henry_the_turmit: Sprite = None
+Bar_left: Sprite = None
+Bar_right: Sprite = None
+Bar_down: Sprite = None
+bar_up: Sprite = None
 lev = 0
 projectile: Sprite = None
 has_voltzol_echo = 0
@@ -513,71 +525,68 @@ Echo_matte = 0
 nearest_enemy: Sprite = None
 shorted_distance = 0
 Zol_echo2: Sprite = None
-steinsjekk = 0
 direction = 0
+steinsjekk = 0
 Rock: Sprite = None
 zelda: Sprite = None
 Heart: Sprite = None
-nearest_enemy2 = 0
+statusbar_rules_en()
 Echo_matte2 = 0
+nearest_enemy2 = 0
 A = sprites.create(assets.image("""
     empty
-"""), SpriteKind.UI)
+    """), SpriteKind.UI)
 Heart = sprites.create(assets.image("""
     empty
-"""), SpriteKind.food)
+    """), SpriteKind.food)
 zelda = sprites.create(assets.image("""
     Zelda_front
-"""), SpriteKind.player)
+    """), SpriteKind.player)
 Rock = sprites.create(assets.image("""
     empty
-"""), SpriteKind.Throwable)
+    """), SpriteKind.Throwable)
 scene.camera_follow_sprite(zelda)
 info.set_life(5)
 A.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
 A.set_position(150, 109)
 Rock.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, True)
-LoadLevel(1)
+LoadLevel(2)
 
 def on_on_update():
-    global Henry_the_turmit, kill_count, has_voltzol_echo, wand2
+    global Henry_the_turmit, kill_count, has_voltzol_echo, wand2, mySprite, woltzol
     A.set_image(assets.image("""
         empty
-    """))
+        """))
+    if info.life() == 0:
+        zelda.start_effect(effects.fire)
     if 2 == kill_count and has_voltzol_echo == 1 and lev == 1:
         music.stop_all_sounds()
         music.play(music.create_song(assets.song("""
                 You_did_it
-            """)),
+                """)),
             music.PlaybackMode.IN_BACKGROUND)
         Henry_the_turmit = sprites.create(assets.image("""
-            Henry_the_turmit
-        """), SpriteKind.npc)
+                Henry_the_turmit
+                """),
+            SpriteKind.npc)
         kill_count = 0
-        tiles.place_on_random_tile(Henry_the_turmit, assets.tile("""
-            Henry_hiding
-        """))
+        tiles.place_on_random_tile(Henry_the_turmit, myTiles.tile4)
         Henry_the_turmit.set_image(assets.image("""
             Henry_the_turmit
-        """))
+            """))
         animation.run_image_animation(Henry_the_turmit,
             assets.animation("""
                 Henry_animation
-            """),
+                """),
             500,
             True)
-        tiles.set_tile_at(tiles.get_tile_location(9, 1),
-            assets.tile("""
-                myTile4
-            """))
+        tiles.set_tile_at(tiles.get_tile_location(9, 1), myTiles.tile16)
         has_voltzol_echo = 5
     if tiles.tile_is(tiles.location_in_direction(tiles.location_of_sprite(zelda), CollisionDirection.TOP),
-        assets.tile("""
-            myTile4
-        """)):
+        myTiles.tile16):
         A.set_image(assets.image("""
             Button
-        """))
+            """))
         dialog("Henry")
         if controller.A.is_pressed() and 5 == has_voltzol_echo:
             has_voltzol_echo += 1
@@ -587,26 +596,35 @@ def on_on_update():
                 DialogLayout.BOTTOM)
             wand2 = sprites.create(assets.image("""
                 Wand
-            """), SpriteKind.wand)
+                """), SpriteKind.wand)
             wand2.set_position(Henry_the_turmit.left - 6, Henry_the_turmit.y)
             animation.run_image_animation(wand2,
                 assets.animation("""
                     wand animation
-                """),
+                    """),
                 1000,
                 True)
         if controller.A.is_pressed() and 6 == has_voltzol_echo:
             A.set_image(assets.image("""
                 Button
-            """))
+                """))
             game.show_long_text("Go ahead try it ", DialogLayout.BOTTOM)
-    if lev == 2 and tiles.tile_is(tiles.location_of_sprite(zelda),
-        assets.tile("""
-            myTile
-        """)):
-        effects.star_field.start_screen_effect(500)
+    if lev == 2 and tiles.tile_is(tiles.location_of_sprite(zelda), myTiles.tile28) and mySprite == 0:
+        effects.star_field.start_screen_effect(5000)
         dialog("Nayru")
-        game.show_long_text("Zelda\\n \\nZelda\\n \\n That wand was created by me to help a hero.\\n I see you've gotten yourself into trouble.\\n Well there's probably nothing else you can do but find the treasure and give it to him, Turmits can be dangerous when they're angry\\n I nearly forgot i have to teach how to use the wand.\\n Press B to spawn a echo",
+        game.show_long_text("Zelda\\n \\n That wand was created by me to help a hero.\\n I see you've gotten yourself into trouble.\\n Well there's probably nothing else you can do but find the treasure and give it to him, Turmits can be dangerous when they're angry\\n \\n I nearly forgot i have to teach how to use the wand.\\n \\n When you make a new echo the old one Automaticlly get destroyed. If the enemy and your echo is equally strong both will get destroyed. your echo will often be weaker",
             DialogLayout.BOTTOM)
+        mySprite = 1
+        woltzol = sprites.create(assets.image("""
+            zol
+            """), SpriteKind.enemy)
+        animation.run_image_animation(woltzol,
+            assets.animation("""
+                Wolt_zol_Animation
+                """),
+            650,
+            True)
+        tiles.place_on_tile(woltzol, tiles.get_tile_location(5, 2))
+        woltzol.follow(zelda, 20)
     Animations()
 game.on_update(on_on_update)
