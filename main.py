@@ -11,7 +11,7 @@ class SpriteKind:
     Follow = SpriteKind.create()
 
 def on_hit_wall(sprite, location):
-    global steinsjekk
+    global steinsjekk, Mimic_check, Cursed_rock
     if controller.A.is_pressed() and steinsjekk == 0:
         for value in [CollisionDirection.LEFT,
             CollisionDirection.TOP,
@@ -38,6 +38,20 @@ def on_hit_wall(sprite, location):
                     Rock.set_image(assets.image("""
                         Carry_bottle
                         """))
+                elif tiles.tile_is(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
+                    myTiles.tile39):
+                    tiles.set_tile_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
+                        myTiles.tile18)
+                    tiles.set_wall_at(tiles.location_in_direction(tiles.location_of_sprite(zelda), value),
+                        False)
+                    Rock_mimic.set_image(assets.image("""
+                        Rockmimic_front
+                        """))
+                    Mimic_check = 1
+                    Cursed_rock = sprites.create(assets.image("""
+                            Rock_mimmic_hiding
+                            """),
+                        SpriteKind.enemy)
 scene.on_hit_wall(SpriteKind.player, on_hit_wall)
 
 def on_up_pressed():
@@ -49,7 +63,7 @@ def on_b_pressed():
     global Zol_echo2, shorted_distance, nearest_enemy, Echo_matte
     sprites.destroy(Zol_echo2)
     Zol_echo2 = sprites.create(assets.image("""
-        tuhj
+        bar bottom
         """), SpriteKind.echo)
     animation.run_image_animation(Zol_echo2,
         assets.animation("""
@@ -70,25 +84,9 @@ def on_b_pressed():
         Zol_echo2.top = zelda.bottom
         Zol_echo2.x = zelda.x
     shorted_distance = 99999
-    nearest_enemy = sprites.create(img("""
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            . . . . . . . . . . . . . . . .
-            """),
-        SpriteKind.Follow)
+    nearest_enemy = sprites.create(assets.image("""
+        empty
+        """), SpriteKind.Follow)
     if len(sprites.all_of_kind(SpriteKind.enemy)) == 0:
         pass
     else:
@@ -240,7 +238,7 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def on_map_loaded(tilemap2):
-    global bar_up, Bar_down, Bar_right, Bar_left, Henry_the_turmit, bar_basic, wall_hole, woltzol
+    global bar_up, Bar_down, Bar_right, Bar_left, Henry_the_turmit, bar_basic, wall_hole, woltzol, Rock_mimic, Mimic_check
     for value3 in tiles.get_tiles_by_type(myTiles.tile15):
         bar_up = sprites.create(assets.image("""
             Gate_top
@@ -249,7 +247,7 @@ def on_map_loaded(tilemap2):
         tiles.set_wall_at(value3, True)
     for value4 in tiles.get_tiles_by_type(myTiles.tile34):
         Bar_down = sprites.create(assets.image("""
-            Gate_bottom
+            bar bottom
             """), SpriteKind.wall)
         tiles.place_on_tile(Bar_down, value4)
         tiles.set_wall_at(value4, True)
@@ -300,10 +298,22 @@ def on_map_loaded(tilemap2):
                 True)
             woltzol.follow(zelda, 20)
     elif lev == 2:
-        tiles.set_wall_at(tiles.get_tile_location(7, 0), True)
         tiles.place_on_tile(zelda, tiles.get_tile_location(5, 9))
     elif lev == 3:
+        Rock_mimic = sprites.create(assets.image("""
+                Rock_mimmic_hiding
+                """),
+            SpriteKind.enemy)
         tiles.place_on_tile(zelda, tiles.get_tile_location(2, 18))
+        tiles.place_on_tile(Rock_mimic, tiles.get_tile_location(4, 15))
+        tiles.set_wall_at(tiles.get_tile_location(4, 15), True)
+        Mimic_check = 0
+        animation.run_image_animation(Cursed_rock,
+            assets.animation("""
+                Mimic_animation
+                """),
+            500,
+            True)
 tiles.on_map_loaded(on_map_loaded)
 
 def on_on_overlap2(sprite4, otherSprite3):
@@ -358,95 +368,126 @@ def on_down_pressed():
 controller.down.on_event(ControllerButtonEvent.PRESSED, on_down_pressed)
 
 def on_on_overlap5(sprite7, otherSprite6):
-    info.change_life_by(-1)
-    zelda.start_effect(effects.fire, 100)
-    otherSprite6.follow(zelda, 0)
-    pause(1000)
-    otherSprite6.follow(zelda, 20)
+    if otherSprite6 == woltzol:
+        info.change_life_by(-1)
+        zelda.start_effect(effects.fire, 100)
+        otherSprite6.follow(zelda, 0)
+        pause(1000)
+        otherSprite6.follow(zelda, 20)
+    elif otherSprite6 == Rock_mimic:
+        info.change_life_by(-2)
+        zelda.start_effect(effects.disintegrate, 100)
+        otherSprite6.follow(zelda, 0)
+        pause(1000)
+        otherSprite6.follow(zelda, 20)
 sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap5)
 
 def Animations():
-    if steinsjekk >= 1:
-        controller.move_sprite(zelda, 27, 27)
-        Rock.set_position(zelda.x, zelda.top - 6)
-        if zelda.vx < 0:
-            if Math.round(zelda.x / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    Zelda_left_rock
+    if dot_on == 0:
+        if Rock_mimic.vy < 0:
+            Cursed_rock.set_image(assets.image("""
+                Rock_back
+                """))
+            if 0 == Math.round(Rock_mimic.y / 10) % 2:
+                Rock_mimic.set_image(assets.image("""
+                    Rockmimic_back
                     """))
             else:
-                zelda.set_image(assets.image("""
-                    Zelda_left_rock_alt
+                Rock_mimic.set_image(assets.image("""
+                    Rockmimic_back_alt
                     """))
-        elif zelda.vx > 0:
-            if Math.round(zelda.x / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    zelda_right_rock
-                    """))
-            else:
-                zelda.set_image(assets.image("""
-                    zelda_right_rock_alt
-                    """))
-        elif zelda.vy > 0:
-            if Math.round(zelda.y / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    Zelda_front_stone
+        elif Rock_mimic.vy > 0:
+            if Math.round(Rock_mimic.y / 10) % 2 == 0:
+                Rock_mimic.set_image(assets.image("""
+                    Rockmimic_front
                     """))
             else:
-                zelda.set_image(assets.image("""
-                    Zelda_front_rock_alt
-                    """))
-        elif zelda.vy < 0:
-            if 0 == Math.round(zelda.y / 10) % 2:
-                zelda.set_image(assets.image("""
-                    Zelda_back_rock
-                    """))
-            else:
-                zelda.set_image(assets.image("""
-                    Zelda_back_rock_alt
+                Rock_mimic.set_image(assets.image("""
+                    mimic_front
                     """))
         else:
             pass
-    else:
-        controller.move_sprite(zelda, 51, 51)
-        if zelda.vx < 0:
-            if Math.round(zelda.x / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    Zelda_left
-                    """))
+        if steinsjekk >= 1:
+            controller.move_sprite(zelda, 27, 27)
+            Rock.set_position(zelda.x, zelda.top - 6)
+            if zelda.vx < 0:
+                if Math.round(zelda.x / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        Zelda_left_rock
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_left_rock_alt
+                        """))
+            elif zelda.vx > 0:
+                if Math.round(zelda.x / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        zelda_right_rock
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        zelda_right_rock_alt
+                        """))
+            elif zelda.vy > 0:
+                if Math.round(zelda.y / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        Zelda_front_stone
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_front_rock_alt
+                        """))
+            elif zelda.vy < 0:
+                if 0 == Math.round(zelda.y / 10) % 2:
+                    zelda.set_image(assets.image("""
+                        Zelda_back_rock
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_back_rock_alt
+                        """))
             else:
-                zelda.set_image(assets.image("""
-                    Zelda_left_alt
-                    """))
-        elif zelda.vx > 0:
-            if Math.round(zelda.x / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    zelda_right
-                    """))
-            else:
-                zelda.set_image(assets.image("""
-                    Zelda_right_alt
-                    """))
-        elif zelda.vy > 0:
-            if Math.round(zelda.y / 10) % 2 == 0:
-                zelda.set_image(assets.image("""
-                    Zelda_front
-                    """))
-            else:
-                zelda.set_image(assets.image("""
-                    Zelda_front_alt
-                    """))
-        elif zelda.vy < 0:
-            if 0 == Math.round(zelda.y / 10) % 2:
-                zelda.set_image(assets.image("""
-                    Zelda_back
-                    """))
-            else:
-                zelda.set_image(assets.image("""
-                    Zelda_back_alt
-                    """))
+                pass
         else:
-            pass
+            controller.move_sprite(zelda, 51, 51)
+            if zelda.vx < 0:
+                if Math.round(zelda.x / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        Zelda_left
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_left_alt
+                        """))
+            elif zelda.vx > 0:
+                if Math.round(zelda.x / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        zelda_right
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_right_alt
+                        """))
+            elif zelda.vy > 0:
+                if Math.round(zelda.y / 10) % 2 == 0:
+                    zelda.set_image(assets.image("""
+                        Zelda_front
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_front_alt
+                        """))
+            elif zelda.vy < 0:
+                if 0 == Math.round(zelda.y / 10) % 2:
+                    zelda.set_image(assets.image("""
+                        Zelda_back
+                        """))
+                else:
+                    zelda.set_image(assets.image("""
+                        Zelda_back_alt
+                        """))
+            else:
+                pass
 
 def on_on_overlap6(sprite6, otherSprite5):
     global kill_count
@@ -471,7 +512,7 @@ sprites.on_overlap(SpriteKind.echo, SpriteKind.enemy, on_on_overlap6)
 
 def on_on_destroyed(sprite8):
     global mySprite
-    if lev == 2 and mySprite == 2:
+    if lev == 2 and mySprite == 1:
         mySprite = 2
         animation.run_image_animation(bar_up,
             assets.animation("""
@@ -479,34 +520,40 @@ def on_on_destroyed(sprite8):
                 """),
             500,
             False)
-        pause(5000)
         tiles.set_wall_at(tiles.get_tile_location(5, 0), False)
 sprites.on_destroyed(SpriteKind.enemy, on_on_destroyed)
 
 def on_on_overlap7(sprite62, otherSprite52):
-    global kill_count, zol_echo_shimmer
-    kill_count += 1
-    if kill_count == 1 and woltzol == otherSprite52 and kill_count == 1:
-        zol_echo_shimmer = sprites.create(assets.image("""
-            zol
-            """), SpriteKind.Echo_shimmer)
-        zol_echo_shimmer.set_position(otherSprite52.x, otherSprite52.y)
-        zol_echo_shimmer.set_image(assets.image("""
-            zol
+    global kill_count, zol_echo_shimmer, dot_on
+    if otherSprite52 == Zol_echo2:
+        kill_count += 1
+        if kill_count == 1 and woltzol == otherSprite52 and kill_count == 1:
+            zol_echo_shimmer = sprites.create(assets.image("""
+                zol
+                """), SpriteKind.Echo_shimmer)
+            zol_echo_shimmer.set_position(otherSprite52.x, otherSprite52.y)
+            zol_echo_shimmer.set_image(assets.image("""
+                zol
+                """))
+            zol_echo_shimmer.start_effect(effects.star_field)
+            animation.run_image_animation(zol_echo_shimmer,
+                assets.animation("""
+                    Zol_echo_shimmer_animation
+                    """),
+                500,
+                True)
+        sprites.destroy(otherSprite52, effects.disintegrate, 100)
+        sprites.destroy(sprite62, effects.ashes, 100)
+    elif otherSprite52 == Rock_mimic:
+        Cursed_rock.set_image(assets.image("""
+            rockbackfallen
             """))
-        zol_echo_shimmer.start_effect(effects.star_field)
-        animation.run_image_animation(zol_echo_shimmer,
-            assets.animation("""
-                Zol_echo_shimmer_animation
-                """),
-            500,
-            True)
-    sprites.destroy(otherSprite52, effects.disintegrate, 100)
-    sprites.destroy(sprite62, effects.ashes, 100)
+        dot_on = 1
 sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap7)
 
 mySprite = 0
 kill_count = 0
+dot_on = 0
 statusbar: StatusBarSprite = None
 wand2: Sprite = None
 woltzol: Sprite = None
@@ -526,6 +573,9 @@ nearest_enemy: Sprite = None
 shorted_distance = 0
 Zol_echo2: Sprite = None
 direction = 0
+Cursed_rock: Sprite = None
+Mimic_check = 0
+Rock_mimic: Sprite = None
 steinsjekk = 0
 Rock: Sprite = None
 zelda: Sprite = None
@@ -550,13 +600,16 @@ info.set_life(5)
 A.set_flag(SpriteFlag.RELATIVE_TO_CAMERA, True)
 A.set_position(150, 109)
 Rock.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, True)
-LoadLevel(2)
+LoadLevel(3)
 
 def on_on_update():
     global Henry_the_turmit, kill_count, has_voltzol_echo, wand2, mySprite, woltzol
     A.set_image(assets.image("""
         empty
         """))
+    if Mimic_check == 1:
+        Cursed_rock.z = 5
+        Cursed_rock.set_position(Rock_mimic.x - 1, Rock_mimic.top - 5)
     if info.life() == 0:
         zelda.start_effect(effects.fire)
     if 2 == kill_count and has_voltzol_echo == 1 and lev == 1:

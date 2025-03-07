@@ -9,6 +9,9 @@ namespace SpriteKind {
     export const echo = SpriteKind.create()
     export const Follow = SpriteKind.create()
 }
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 1
+})
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     if (controller.A.isPressed() && steinsjekk == 0) {
         for (let value of [
@@ -33,13 +36,69 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
                     tiles.setWallAt(tiles.locationInDirection(tiles.locationOfSprite(zelda), value), false)
                     Rock_mimic.setImage(assets.image`Rockmimic_front`)
                     Mimic_check = 1
+                    Cursed_rock = sprites.create(assets.image`Rock_mimmic_hiding`, SpriteKind.Enemy)
+                    animation.runImageAnimation(
+                    Cursed_rock,
+                    assets.animation`Mimic_animation`,
+                    500,
+                    true
+                    )
+                    Rock_mimic.follow(zelda, 20)
+                    Rock_mimic.z = 1
+                    Cursed_rock.z = 1
                 }
             }
         }
     }
 })
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    direction = 1
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite62, otherSprite52) {
+    if (otherSprite52 == Cursed_rock) {
+        animation.stopAnimation(animation.AnimationTypes.All, Cursed_rock)
+        Cursed_rock.setImage(assets.image`rockbackfallen`)
+        Rock_mimic.setImage(assets.image`fallen backmimic`)
+        dot_on = 1
+        Rock_mimic.follow(zelda, 0)
+        pause(4000)
+        animation.runImageAnimation(
+        Cursed_rock,
+        assets.animation`Mimic_animation`,
+        500,
+        true
+        )
+        dot_on = 0
+        Rock_mimic.follow(zelda, 20)
+    } else if (otherSprite52 == Rock_mimic) {
+        animation.stopAnimation(animation.AnimationTypes.All, Cursed_rock)
+        Cursed_rock.setImage(assets.image`rockbackfallen`)
+        Rock_mimic.setImage(assets.image`fallen backmimic`)
+        dot_on = 1
+        Rock_mimic.follow(zelda, 0)
+        pause(4000)
+        animation.runImageAnimation(
+        Cursed_rock,
+        assets.animation`Mimic_animation`,
+        500,
+        true
+        )
+        dot_on = 0
+        Rock_mimic.follow(zelda, 20)
+    } else {
+        kill_count += 1
+        if (kill_count == 1 && woltzol == otherSprite52 && kill_count == 1) {
+            zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
+            zol_echo_shimmer.setPosition(otherSprite52.x, otherSprite52.y)
+            zol_echo_shimmer.setImage(assets.image`zol`)
+            zol_echo_shimmer.startEffect(effects.starField)
+            animation.runImageAnimation(
+            zol_echo_shimmer,
+            assets.animation`Zol_echo_shimmer_animation`,
+            500,
+            true
+            )
+        }
+        sprites.destroy(otherSprite52, effects.disintegrate, 100)
+        sprites.destroy(sprite62, effects.ashes, 100)
+    }
 })
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     sprites.destroy(Zol_echo2)
@@ -77,6 +136,14 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         Zol_echo2.follow(nearest_enemy, 20)
     }
 })
+function statusbar_rules_en () {
+    statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
+    statusbar.setColor(2, 15, 5)
+    statusbar.setBarBorder(1, 15)
+    statusbar.max = 2
+    statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
+    statusbar.setFlag(SpriteFlag.Invisible, true)
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_shimmer, function (sprite2, otherSprite) {
     animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
     effects.clearParticles(zol_echo_shimmer)
@@ -163,25 +230,25 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 0
 })
 tiles.onMapLoaded(function (tilemap2) {
-    for (let value of tiles.getTilesByType(myTiles.tile15)) {
+    for (let value3 of tiles.getTilesByType(myTiles.tile15)) {
         bar_up = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
-        tiles.placeOnTile(bar_up, value)
-        tiles.setWallAt(value, true)
+        tiles.placeOnTile(bar_up, value3)
+        tiles.setWallAt(value3, true)
     }
-    for (let value of tiles.getTilesByType(myTiles.tile34)) {
+    for (let value4 of tiles.getTilesByType(myTiles.tile34)) {
         Bar_down = sprites.create(assets.image`bar bottom`, SpriteKind.wall)
-        tiles.placeOnTile(Bar_down, value)
-        tiles.setWallAt(value, true)
+        tiles.placeOnTile(Bar_down, value4)
+        tiles.setWallAt(value4, true)
     }
-    for (let value of tiles.getTilesByType(myTiles.tile35)) {
+    for (let value5 of tiles.getTilesByType(myTiles.tile35)) {
         Bar_right = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
-        tiles.placeOnTile(Bar_right, value)
-        tiles.setWallAt(value, true)
+        tiles.placeOnTile(Bar_right, value5)
+        tiles.setWallAt(value5, true)
     }
-    for (let value of tiles.getTilesByType(myTiles.tile36)) {
+    for (let value6 of tiles.getTilesByType(myTiles.tile36)) {
         Bar_left = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
-        tiles.placeOnTile(Bar_left, value)
-        tiles.setWallAt(value, true)
+        tiles.placeOnTile(Bar_left, value6)
+        tiles.setWallAt(value6, true)
     }
     if (lev == 1) {
         tiles.placeOnTile(bar_up, tiles.getTileLocation(7, 0))
@@ -189,13 +256,13 @@ tiles.onMapLoaded(function (tilemap2) {
         game.setGameOverEffect(false, effects.melt)
         game.setGameOverPlayable(false, music.melodyPlayable(music.spooky), true)
         Henry_the_turmit = sprites.create(assets.image`empty`, SpriteKind.npc)
-        for (let value of tiles.getTilesByType(sprites.builtin.forestTiles10)) {
+        for (let value7 of tiles.getTilesByType(sprites.builtin.forestTiles10)) {
             bar_basic = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
             wall_hole = sprites.create(assets.image`Wall_hole`, SpriteKind.wall)
             wall_hole.z = 1010
-            tiles.placeOnTile(wall_hole, value)
-            tiles.placeOnTile(bar_basic, value)
-            tiles.setWallAt(value, true)
+            tiles.placeOnTile(wall_hole, value7)
+            tiles.placeOnTile(bar_basic, value7)
+            tiles.setWallAt(value7, true)
         }
         for (let value22 of tiles.getTilesByType(myTiles.tile2)) {
             woltzol = sprites.create(assets.image`Wolt_zol`, SpriteKind.Enemy)
@@ -211,11 +278,22 @@ tiles.onMapLoaded(function (tilemap2) {
     } else if (lev == 2) {
         tiles.placeOnTile(zelda, tiles.getTileLocation(5, 9))
     } else if (lev == 3) {
+        tiles.setWallAt(tiles.getTileLocation(4, 15), true)
         Rock_mimic = sprites.create(assets.image`Rock_mimmic_hiding`, SpriteKind.Enemy)
         tiles.placeOnTile(zelda, tiles.getTileLocation(2, 18))
         tiles.placeOnTile(Rock_mimic, tiles.getTileLocation(4, 15))
-        tiles.setWallAt(tiles.getTileLocation(4, 15), true)
-        Mimic_check = 0
+    }
+})
+sprites.onDestroyed(SpriteKind.Enemy, function (sprite8) {
+    if (lev == 2 && mySprite == 1) {
+        mySprite = 2
+        animation.runImageAnimation(
+        bar_up,
+        assets.animation`Bar_animation_top`,
+        500,
+        false
+        )
+        tiles.setWallAt(tiles.getTileLocation(5, 0), false)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSprite3) {
@@ -251,176 +329,153 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite5, otherSp
     pause(5000)
     tiles.setWallAt(tiles.getTileLocation(7, 0), false)
 })
-function statusbar_rules_en () {
-    statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
-    statusbar.setColor(2, 15, 5)
-    statusbar.setBarBorder(1, 15)
-    statusbar.max = 2
-    statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
-    statusbar.setFlag(SpriteFlag.Invisible, true)
-}
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 3
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite7, otherSprite6) {
-    if (otherSprite6 == woltzol) {
-        info.changeLifeBy(-1)
-        zelda.startEffect(effects.fire, 100)
-        otherSprite6.follow(zelda, 0)
-        pause(1000)
-        otherSprite6.follow(zelda, 20)
-    } else if (otherSprite6 == Rock_mimic) {
-        info.changeLifeBy(-2)
-        zelda.startEffect(effects.disintegrate, 100)
-        otherSprite6.follow(zelda, 0)
-        pause(1000)
-        otherSprite6.follow(zelda, 20)
-    }
+    info.changeLifeBy(-1)
+    zelda.startEffect(effects.disintegrate, 100)
+    otherSprite6.follow(zelda, 0)
+    pause(1000)
+    otherSprite6.follow(zelda, 20)
 })
-function Animations () {
-    if (true) {
-        if (Rock_mimic.vy < 0) {
-            Cursed_rock.setImage(assets.image`Rock_back`)
-            if (0 == Math.round(Rock_mimic.y / 10) % 2) {
-                Rock_mimic.setImage(assets.image`Rockmimic_back`)
-            } else {
-                Rock_mimic.setImage(assets.image`Rockmimic_back_alt`)
-            }
-        } else if (Rock_mimic.vy > 0) {
-            if (Math.round(Rock_mimic.y / 10) % 2 == 0) {
-                Rock_mimic.setImage(assets.image`Rockmimic_front`)
-            } else {
-                Rock_mimic.setImage(assets.image`mimic_front`)
-            }
-        } else {
-        	
-        }
-        if (steinsjekk >= 1) {
-            controller.moveSprite(zelda, 27, 27)
-            Rock.setPosition(zelda.x, zelda.top - 6)
-            if (zelda.vx < 0) {
-                if (Math.round(zelda.x / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`Zelda_left_rock`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_left_rock_alt`)
-                }
-            } else if (zelda.vx > 0) {
-                if (Math.round(zelda.x / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`zelda_right_rock`)
-                } else {
-                    zelda.setImage(assets.image`zelda_right_rock_alt`)
-                }
-            } else if (zelda.vy > 0) {
-                if (Math.round(zelda.y / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`Zelda_front_stone`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_front_rock_alt`)
-                }
-            } else if (zelda.vy < 0) {
-                if (0 == Math.round(zelda.y / 10) % 2) {
-                    zelda.setImage(assets.image`Zelda_back_rock`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_back_rock_alt`)
-                }
-            } else {
-            	
-            }
-        } else {
-            controller.moveSprite(zelda, 51, 51)
-            if (zelda.vx < 0) {
-                if (Math.round(zelda.x / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`Zelda_left`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_left_alt`)
-                }
-            } else if (zelda.vx > 0) {
-                if (Math.round(zelda.x / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`zelda_right`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_right_alt`)
-                }
-            } else if (zelda.vy > 0) {
-                if (Math.round(zelda.y / 10) % 2 == 0) {
-                    zelda.setImage(assets.image`Zelda_front`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_front_alt`)
-                }
-            } else if (zelda.vy < 0) {
-                if (0 == Math.round(zelda.y / 10) % 2) {
-                    zelda.setImage(assets.image`Zelda_back`)
-                } else {
-                    zelda.setImage(assets.image`Zelda_back_alt`)
-                }
-            } else {
-            	
-            }
-        }
-    }
-}
-sprites.onOverlap(SpriteKind.echo, SpriteKind.Enemy, function (sprite, otherSprite) {
-    statusbar.setFlag(SpriteFlag.Invisible, false)
-    if (0 == statusbar.value) {
-        statusbar_rules_en()
-    }
-    statusbar.attachToSprite(otherSprite)
-    if (false) {
-    	
-    } else {
-        statusbar.value += -1
-    }
-    statusbar.setFlag(SpriteFlag.Invisible, false)
-    sprites.destroy(sprite, effects.starField, 100)
-    if (0 == statusbar.value) {
-        if (false) {
-        	
-        } else {
-            kill_count += 1
-            statusbar.setFlag(SpriteFlag.Invisible, true)
-            sprites.destroy(otherSprite)
-        }
-    }
-})
-sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
-    if (lev == 2 && mySprite == 1) {
-        mySprite = 2
-        animation.runImageAnimation(
-        bar_up,
-        assets.animation`Bar_animation_top`,
-        500,
-        false
-        )
-        tiles.setWallAt(tiles.getTileLocation(5, 0), false)
-    }
-})
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite6, otherSprite5) {
-    if (otherSprite5 == Zol_echo2) {
-        kill_count += 1
-        if (kill_count == 1 && woltzol == otherSprite5 && kill_count == 1) {
-            zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
-            zol_echo_shimmer.setPosition(otherSprite5.x, otherSprite5.y)
-            zol_echo_shimmer.setImage(assets.image`zol`)
-            zol_echo_shimmer.startEffect(effects.starField)
+sprites.onOverlap(SpriteKind.echo, SpriteKind.Enemy, function (sprite6, otherSprite5) {
+    if (otherSprite5 == Cursed_rock) {
+        sprites.destroy(sprite6)
+        if (dot_on == 1) {
+            Mimic_health += -1
+            Rock_mimic.startEffect(effects.ashes)
             animation.runImageAnimation(
-            zol_echo_shimmer,
-            assets.animation`Zol_echo_shimmer_animation`,
+            Cursed_rock,
+            assets.animation`Mimic_animation`,
             500,
             true
             )
+            dot_on = 0
+            Rock_mimic.follow(zelda, 20)
         }
-        sprites.destroy(otherSprite5, effects.disintegrate, 100)
-        sprites.destroy(sprite6, effects.ashes, 100)
     } else if (otherSprite5 == Rock_mimic) {
-        Cursed_rock.setImage(assets.image`rockbackfallen`)
-        dot_on = 1
-        pause(5000)
+        sprites.destroy(sprite6)
+        if (dot_on == 1) {
+            Mimic_health += -1
+            Rock_mimic.startEffect(effects.ashes)
+            animation.runImageAnimation(
+            Cursed_rock,
+            assets.animation`Mimic_animation`,
+            500,
+            true
+            )
+            dot_on = 0
+            Rock_mimic.follow(zelda, 20)
+        }
+    } else {
+        statusbar.setFlag(SpriteFlag.Invisible, false)
+        if (0 == statusbar.value) {
+            statusbar_rules_en()
+        }
+        statusbar.attachToSprite(otherSprite5)
+        if (false) {
+        	
+        } else {
+            statusbar.value += -1
+        }
+        statusbar.setFlag(SpriteFlag.Invisible, false)
+        sprites.destroy(sprite6, effects.starField, 100)
+        if (0 == statusbar.value) {
+            if (false) {
+            	
+            } else {
+                kill_count += 1
+                statusbar.setFlag(SpriteFlag.Invisible, true)
+                sprites.destroy(otherSprite5)
+            }
+        }
     }
 })
-let dot_on = 0
-let mySprite = 0
-let kill_count = 0
-let statusbar: StatusBarSprite = null
+function Animations () {
+    if (Mimic_check == 1) {
+        if (dot_on == 0) {
+            if (Rock_mimic.vy < 0) {
+                Cursed_rock.setImage(assets.image`Rock_back`)
+                if (0 == Math.round(Rock_mimic.y / 10) % 2) {
+                    Rock_mimic.setImage(assets.image`Rockmimic_back`)
+                } else {
+                    Rock_mimic.setImage(assets.image`Rockmimic_back_alt`)
+                }
+            } else if (Rock_mimic.vy > 0) {
+                if (Math.round(Rock_mimic.y / 10) % 2 == 0) {
+                    Rock_mimic.setImage(assets.image`Rockmimic_front`)
+                } else {
+                    Rock_mimic.setImage(assets.image`mimic_front`)
+                }
+            } else {
+            	
+            }
+        }
+    }
+    if (steinsjekk >= 1) {
+        controller.moveSprite(zelda, 27, 27)
+        Rock.setPosition(zelda.x, zelda.top - 6)
+        if (zelda.vx < 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_left_rock`)
+            } else {
+                zelda.setImage(assets.image`Zelda_left_rock_alt`)
+            }
+        } else if (zelda.vx > 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`zelda_right_rock`)
+            } else {
+                zelda.setImage(assets.image`zelda_right_rock_alt`)
+            }
+        } else if (zelda.vy > 0) {
+            if (Math.round(zelda.y / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_front_stone`)
+            } else {
+                zelda.setImage(assets.image`Zelda_front_rock_alt`)
+            }
+        } else if (zelda.vy < 0) {
+            if (0 == Math.round(zelda.y / 10) % 2) {
+                zelda.setImage(assets.image`Zelda_back_rock`)
+            } else {
+                zelda.setImage(assets.image`Zelda_back_rock_alt`)
+            }
+        } else {
+        	
+        }
+    } else {
+        controller.moveSprite(zelda, 51, 51)
+        if (zelda.vx < 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_left`)
+            } else {
+                zelda.setImage(assets.image`Zelda_left_alt`)
+            }
+        } else if (zelda.vx > 0) {
+            if (Math.round(zelda.x / 10) % 2 == 0) {
+                zelda.setImage(assets.image`zelda_right`)
+            } else {
+                zelda.setImage(assets.image`Zelda_right_alt`)
+            }
+        } else if (zelda.vy > 0) {
+            if (Math.round(zelda.y / 10) % 2 == 0) {
+                zelda.setImage(assets.image`Zelda_front`)
+            } else {
+                zelda.setImage(assets.image`Zelda_front_alt`)
+            }
+        } else if (zelda.vy < 0) {
+            if (0 == Math.round(zelda.y / 10) % 2) {
+                zelda.setImage(assets.image`Zelda_back`)
+            } else {
+                zelda.setImage(assets.image`Zelda_back_alt`)
+            }
+        } else {
+        	
+        }
+    }
+}
 let wand2: Sprite = null
-let woltzol: Sprite = null
+let mySprite = 0
 let wall_hole: Sprite = null
 let bar_basic: Sprite = null
 let Henry_the_turmit: Sprite = null
@@ -429,43 +484,60 @@ let Bar_right: Sprite = null
 let Bar_down: Sprite = null
 let bar_up: Sprite = null
 let lev = 0
+let Heart: Sprite = null
 let projectile: Sprite = null
 let has_voltzol_echo = 0
-let zol_echo_shimmer: Sprite = null
+let statusbar: StatusBarSprite = null
 let Echo_matte = 0
 let nearest_enemy: Sprite = null
 let shorted_distance = 0
 let Zol_echo2: Sprite = null
-let direction = 0
+let zol_echo_shimmer: Sprite = null
+let woltzol: Sprite = null
+let kill_count = 0
+let dot_on = 0
+let Cursed_rock: Sprite = null
 let Mimic_check = 0
+let Rock_mimic: Sprite = null
 let steinsjekk = 0
+let direction = 0
 let Rock: Sprite = null
 let zelda: Sprite = null
-let Heart: Sprite = null
-let Cursed_rock: Sprite = null
-let Rock_mimic: Sprite = null
-statusbar_rules_en()
-Rock_mimic = sprites.create(assets.image`Rockmimic_front`, SpriteKind.Enemy)
-let Echo_matte2 = 0
+LoadLevel(3)
 let nearest_enemy2 = 0
-Cursed_rock = sprites.create(assets.image`Rock_mimmic_hiding`, SpriteKind.Enemy)
-animation.runImageAnimation(
-Cursed_rock,
-assets.animation`Mimic_animation`,
-500,
-true
-)
-let A = sprites.create(assets.image`empty`, SpriteKind.UI)
-Heart = sprites.create(assets.image`empty`, SpriteKind.Food)
+let Echo_matte2 = 0
+statusbar_rules_en()
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
+let A = sprites.create(assets.image`empty`, SpriteKind.UI)
+let mySprite2 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
 Rock = sprites.create(assets.image`empty`, SpriteKind.Throwable)
+let Mimic_health = 3
 scene.cameraFollowSprite(zelda)
 info.setLife(5)
 A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
-LoadLevel(3)
 game.onUpdate(function () {
+    if (Mimic_health == 0) {
+        sprites.destroy(mySprite)
+    }
     A.setImage(assets.image`empty`)
     if (Mimic_check == 1) {
         Cursed_rock.z = 5

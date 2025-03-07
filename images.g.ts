@@ -804,44 +804,6 @@ d d d d d d d d d d d d d d d d
 . . . . . . . a 7 . . 7 . . . . 
 . . . . . . . 7 . . . . . . 7 . 
 `;
-            case "image31":
-            case "mimic_front":return img`
-. . . . . . . a a a . . . . . . 
-. . . . . . a a a a a . . . . . 
-. . . . . a a a a a a a . . . . 
-. . . . a a a a a a a a a . . . 
-. . . a a . a a a a a . a a . . 
-. . . a . . a a a a a . . a . . 
-. . . a . . a a a a a . a a a . 
-. . . a . . a a a a a . a a a . 
-. . . a . . a a a a a . a . a . 
-. . a a a . a a a a a . . . . . 
-. . a a a . a a a a a . . . . . 
-. . a . a . . a a a . . . . . . 
-. . . . . . . a a a 7 . . . . . 
-. . . . . . . . a a 7 . . . . 7 
-. . . . . . . . a 7 . . 7 . . . 
-. . . . . . . . 7 . . . . . . 7 
-`;
-            case "j)5%y{/?`/pP1k!0n[fg":
-            case "Rockmimic_back":return img`
-. . . . . . a a a . . . . . . . 
-. . . . . a a a a a . . . . . . 
-. . . . a a a a a a a . . . . . 
-. . . a a a a a a a a a . . . . 
-. . a a . a a a a a . a a . . . 
-. . a . . a a a a a . . a . . . 
-. . a . . a a a a a . a a a . . 
-. . a . . a a a a a . a a a . . 
-. . a . . a a a a a . a . a . . 
-. a a a . a a a a a . . . . . . 
-. a a a . a a a a a . . . . . . 
-. a . a . . a a a . . . . . . . 
-. . . . . 7 a a a . . . . . . . 
-. . . 7 . 7 a a . . . . . . . . 
-. 7 . . . . 7 a . . . . . . . . 
-7 . . . 7 . . 7 . . . . . . . . 
-`;
             case "image30":
             case "Rockmimic_back_alt":return img`
 . . . . . . a a a . . . . . . . 
@@ -880,25 +842,6 @@ d d d d d d d d d d d d d d d d
 . . . f f c c c c c c c f f . . 
 . . . . . f f f f f f f . . . . 
 `;
-            case "image32":
-            case "rockbackfallen":return img`
-. . . . . . . . . . . . . . . . 
-. . . . . . f f f f f . . . . . 
-. . . . . f b b b c c f . . . . 
-. . . . f b b b b c c c f . . . 
-. . . f b b b b b c c c c f . . 
-. . f b b b b b b c c c c c f . 
-. f b b b b b b b c c c c c c f 
-. f c b b b b b c b c c c b c f 
-. f c c b b b c c c b c b c f f 
-. f c c c b c c c c c b c f f f 
-. f c c c b c c a c c b f f f f 
-. f c c c b c a a a c b f f f f 
-. f f c c b c a a a c b f f f f 
-. . f f c b c a 5 a c b f f f . 
-. . . f f c c 5 5 5 c c f f . . 
-. . . . . f f 5 5 5 f f . . . . 
-`;
             case "ze~tuboO]26~=abW47lG":
             case "Rock_mimmic_hiding":return img`
 . . . . . . . . . . . . . . . . 
@@ -917,6 +860,82 @@ d d d d d d d d d d d d d d d d
 . . f f c b c c c f c b f f f . 
 . . . f f c c c c c c c f f . . 
 . . . . . f f f f f f f . . . . 
+`;
+            case "j)5%y{/?`/pP1k!0n[fg":
+            case "Rockmimic_back":return img`
+. . . . . . a a a . . . . . . . 
+. . . . . a a a a a . . . . . . 
+. . . . a a a a a a a . . . . . 
+. . . a a a a a a a a a . . . . 
+. . a a . a a a a a . a a . . . 
+. . a . . a a a a a . . a . . . 
+. . a . . a a a a a . a a a . . 
+. . a . . a a a a a . a a a . . 
+. . a . . a a a a a . a . a . . 
+. a a a . a a a a a . . . . . . 
+. a a a . a a a a a . . . . . . 
+. a . a . . a a a . . . . . . . 
+7 . . . . 7 a a a . . . . . . . 
+. 7 . 7 . 7 a a . . . . . . . . 
+. . . . . . 7 a . . . . . . . . 
+7 . 7 . 7 . . 7 . . . . . . . . 
+`;
+            case "image31":
+            case "mimic_front":return img`
+. . . . . . . a a a . . . . . . 
+. . . . . . a a a a a . . . . . 
+. . . . . a a a a a a a . . . . 
+. . . . a a a a a a a a a . . . 
+. . . a a . a a a a a . a a . . 
+. . . a . . a a a a a . . a . . 
+. . . a . . a a a a a . a a a . 
+. . . a . . a a a a a . a a a . 
+. . . a . . a a a a a . a . a . 
+. . a a a . a a a a a . . . . . 
+. . a a a . a a a a a . . . . . 
+. . a . a . . a a a . . . . 7 . 
+. . . . . . . a a a 7 . . . . . 
+. . . . . . . . a a 7 . . . . 7 
+. . . . . . . . a 7 . . 7 . . . 
+. . . . . . . . 7 . . . . . . 7 
+`;
+            case "image33":
+            case "fallen backmimic":return img`
+. . . . . . 5 5 5 . . . . . . . 
+. . . . . f a a a f . . . . . . 
+. . . . a f a a a f a . . . . . 
+. . . a a f a a a f a a . . . . 
+. . a a . f a a a f . a a . . . 
+. . a . . f a a a f . . a . . . 
+. . a . . f a a a f . a a a . . 
+. . a . . a f f f a . a a a . . 
+. . a . . f 5 5 5 f . a . a . . 
+. a a a . f 5 5 5 f . . . . . . 
+. a a a . f 5 5 5 f . . . . . . 
+. a . a . . f f f . . . . . . . 
+7 . . . . 7 a a a . . . . . . . 
+. 7 . 7 . 7 a a . . . . . . . . 
+. . . . . . 7 a . . . . . . . . 
+7 . 7 . 7 . . 7 . . . . . . . . 
+`;
+            case "image32":
+            case "rockbackfallen":return img`
+. . . . . . . . . . . . . . . . 
+. . . . . . f f f f f . . . . . 
+. . . . . f b b b c c f . . . . 
+. . . . f b b b b c c c f . . . 
+. . . f b b b b b c c c c f . . 
+. . f b b b b b b c c c c c f . 
+. f b b b b b b b c c c c c c f 
+. f c b b b b b c b c c c b c f 
+. f c c b b b c c c b c b c f f 
+. f c c c b c c f c c b c f f f 
+. f c c c b c f a f c b f f f f 
+. f c c c b f a a a f b f f f f 
+. f f c c b f a a a f b f f f f 
+. . f f c b f a a a f b f f f . 
+. . . f f c f a a a f c f f . . 
+. . . . . f f a a a f f . . . . 
 `;
         }
         return null;
