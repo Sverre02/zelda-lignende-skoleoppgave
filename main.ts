@@ -8,6 +8,8 @@ namespace SpriteKind {
     export const wall = SpriteKind.create()
     export const echo = SpriteKind.create()
     export const Follow = SpriteKind.create()
+    export const web = SpriteKind.create()
+    export const hidden_door = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 1
@@ -84,7 +86,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite62, o
         Rock_mimic.follow(zelda, 20)
     } else {
         kill_count += 1
-        if (kill_count == 1 && woltzol == otherSprite52 && kill_count == 1) {
+        if (kill_count == 1 && Lvl == 1) {
             zol_echo_shimmer = sprites.create(assets.image`zol`, SpriteKind.Echo_shimmer)
             zol_echo_shimmer.setPosition(otherSprite52.x, otherSprite52.y)
             zol_echo_shimmer.setImage(assets.image`zol`)
@@ -100,9 +102,13 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite62, o
         sprites.destroy(sprite62, effects.ashes, 100)
     }
 })
+sprites.onOverlap(SpriteKind.web, SpriteKind.echo, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(otherSprite)
+})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     sprites.destroy(Zol_echo2)
-    Zol_echo2 = sprites.create(assets.image`bar bottom`, SpriteKind.echo)
+    Zol_echo2 = sprites.create(assets.image`empty`, SpriteKind.echo)
     animation.runImageAnimation(
     Zol_echo2,
     assets.animation`Wolt_zol_Animation`,
@@ -140,18 +146,10 @@ function statusbar_rules_en () {
     statusbar = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
     statusbar.setColor(2, 15, 5)
     statusbar.setBarBorder(1, 15)
-    statusbar.max = 2
+    statusbar.max = 3
     statusbar.setStatusBarFlag(StatusBarFlag.SmoothTransition, true)
     statusbar.setFlag(SpriteFlag.Invisible, true)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_shimmer, function (sprite2, otherSprite) {
-    animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
-    effects.clearParticles(zol_echo_shimmer)
-    zol_echo_shimmer.setImage(assets.image`empty`)
-    dialog("Basic")
-    game.showLongText("You found a echo!", DialogLayout.Bottom)
-    has_voltzol_echo += 1
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (steinsjekk >= 1) {
         Rock.setImage(assets.image`empty`)
@@ -199,20 +197,30 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         sprites.destroy(projectile, effects.ashes, 100)
     }
 })
+sprites.onOverlap(SpriteKind.web, SpriteKind.Player, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    info.changeLifeBy(-1)
+})
 function LoadLevel (Level: number) {
     sprites.destroyAllSpritesOfKind(SpriteKind.npc)
     sprites.destroyAllSpritesOfKind(SpriteKind.wall)
-    sprites.destroyAllSpritesOfKind(SpriteKind.echo)
     if (Level == 1) {
         tiles.loadMap(tiles.createMap(tilemap`level2`))
-        lev = 1
+        Lvl = 1
     } else if (Level == 2) {
         tiles.loadMap(tiles.createMap(tilemap`level9`))
-        lev = 2
+        Lvl = 2
     } else if (Level == 3) {
         tiles.loadMap(tiles.createMap(tilemap`level3`))
-        lev = 3
+        Lvl = 3
+    } else if (Level == 4) {
+        tiles.loadMap(tiles.createMap(tilemap`level`))
+        Lvl = 4
+    } else if (Level == 5) {
+        tiles.loadMap(tiles.createMap(tilemap`level6`))
+        Lvl = 5
     }
+    sprites.destroyAllSpritesOfKind(SpriteKind.echo)
 }
 function dialog (who: string) {
     if (who == "Basic") {
@@ -241,16 +249,16 @@ tiles.onMapLoaded(function (tilemap2) {
         tiles.setWallAt(value4, true)
     }
     for (let value5 of tiles.getTilesByType(myTiles.tile35)) {
-        Bar_right = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
-        tiles.placeOnTile(Bar_right, value5)
+        Bar_left = sprites.create(assets.image`bar_left`, SpriteKind.wall)
+        tiles.placeOnTile(Bar_left, value5)
         tiles.setWallAt(value5, true)
     }
     for (let value6 of tiles.getTilesByType(myTiles.tile36)) {
-        Bar_left = sprites.create(assets.image`Gate_top`, SpriteKind.wall)
-        tiles.placeOnTile(Bar_left, value6)
+        Bar_right = sprites.create(assets.image`Bar_right`, SpriteKind.wall)
+        tiles.placeOnTile(Bar_right, value6)
         tiles.setWallAt(value6, true)
     }
-    if (lev == 1) {
+    if (Lvl == 1) {
         tiles.placeOnTile(bar_up, tiles.getTileLocation(7, 0))
         music.play(music.createSong(assets.song`Battle`), music.PlaybackMode.LoopingInBackground)
         game.setGameOverEffect(false, effects.melt)
@@ -275,17 +283,50 @@ tiles.onMapLoaded(function (tilemap2) {
             )
             woltzol.follow(zelda, 20)
         }
-    } else if (lev == 2) {
+    } else if (Lvl == 2) {
         tiles.placeOnTile(zelda, tiles.getTileLocation(5, 9))
-    } else if (lev == 3) {
-        tiles.setWallAt(tiles.getTileLocation(4, 15), true)
+    } else if (Lvl == 3) {
+        tiles.placeOnTile(zelda, tiles.getTileLocation(7, 13))
+        spoder = sprites.create(assets.image`Spider`, SpriteKind.Enemy)
+        tiles.placeOnTile(spoder, tiles.getTileLocation(4, 3))
+        spoder.follow(zelda, 10)
+        animation.runImageAnimation(
+        spoder,
+        assets.animation`spodermation`,
+        500,
+        true
+        )
+        if (Math.percentChance(5)) {
+            animation.runImageAnimation(
+            spoder,
+            assets.animation`spoderman`,
+            500,
+            true
+            )
+        }
+        spoder2 = sprites.create(assets.image`Spider`, SpriteKind.Enemy)
+        tiles.placeOnTile(spoder2, tiles.getTileLocation(10, 3))
+        spoder2.follow(zelda, 10)
+        animation.runImageAnimation(
+        spoder2,
+        assets.animation`spodermation`,
+        500,
+        true
+        )
+    } else if (Lvl == 4) {
+        tiles.setWallAt(tiles.getTileLocation(3, 3), true)
         Rock_mimic = sprites.create(assets.image`Rock_mimmic_hiding`, SpriteKind.Enemy)
-        tiles.placeOnTile(zelda, tiles.getTileLocation(2, 18))
-        tiles.placeOnTile(Rock_mimic, tiles.getTileLocation(4, 15))
+        tiles.placeOnTile(Rock_mimic, tiles.getTileLocation(3, 3))
+    } else if (Lvl == 5) {
+        tiles.placeOnTile(zelda, tiles.getTileLocation(1, 5))
+        for (let value of tiles.getTilesByType(myTiles.tile44)) {
+            hidden_door = sprites.create(assets.image`hidden_door`, SpriteKind.hidden_door)
+            tiles.placeOnTile(hidden_door, value)
+        }
     }
 })
 sprites.onDestroyed(SpriteKind.Enemy, function (sprite8) {
-    if (lev == 2 && mySprite == 1) {
+    if (Lvl == 2 && mySprite == 1) {
         mySprite = 2
         animation.runImageAnimation(
         bar_up,
@@ -304,18 +345,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite4, otherSp
         info.changeLifeBy(1)
     }
 })
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    direction = 2
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.wall, function (sprite3, otherSprite2) {
-    if (lev == 1) {
-        dialog("Henry")
-        game.showLongText("Hey you think you can just walk of with that wand.\\n you don't have any money well you touch it you bye it so you have to pay me in some way. what about you find the treasure in that cave and give it me. (huh huh huh i'm gonna be so rich)", DialogLayout.Bottom)
-        LoadLevel(2)
-    } else if (lev == 2) {
-        LoadLevel(3)
-    }
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite5, otherSprite4) {
     sprites.destroy(wand2)
     dialog("Basic")
@@ -329,15 +358,45 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.wand, function (sprite5, otherSp
     pause(5000)
     tiles.setWallAt(tiles.getTileLocation(7, 0), false)
 })
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    direction = 2
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.wall, function (sprite3, otherSprite2) {
+    if (Lvl == 1) {
+        dialog("Henry")
+        game.showLongText("Hey you think you can just walk of with that wand.\\n you don't have any money well you touch it you bye it so you have to pay me in some way. what about you find the treasure in that cave and give it me. (huh huh huh i'm gonna be so rich)", DialogLayout.Bottom)
+        LoadLevel(2)
+    } else if (Lvl == 2) {
+        LoadLevel(3)
+    } else if (Lvl == 3) {
+        LoadLevel(5)
+    }
+})
+controller.combos.attachCombo("UUDDLRLRBA", function () {
+    info.setLife(1000000)
+    music.play(music.createSong(assets.song`PARTY`), music.PlaybackMode.LoopingInBackground)
+    effects.confetti.startScreenEffect()
+    zelda.startEffect(effects.confetti)
+    game.splash("Party mode activated")
+})
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     direction = 3
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite7, otherSprite6) {
-    info.changeLifeBy(-1)
-    zelda.startEffect(effects.disintegrate, 100)
-    otherSprite6.follow(zelda, 0)
-    pause(1000)
-    otherSprite6.follow(zelda, 20)
+    if (dot_on == 1) {
+    	
+    } else if (Lvl == 3) {
+        info.changeLifeBy(-1)
+        otherSprite6.follow(zelda, 0)
+        pause(1000)
+        otherSprite6.follow(zelda, 10)
+    } else {
+        info.changeLifeBy(-1)
+        zelda.startEffect(effects.fire, 100)
+        otherSprite6.follow(zelda, 0)
+        pause(1000)
+        otherSprite6.follow(zelda, 20)
+    }
 })
 sprites.onOverlap(SpriteKind.echo, SpriteKind.Enemy, function (sprite6, otherSprite5) {
     if (otherSprite5 == Cursed_rock) {
@@ -374,20 +433,21 @@ sprites.onOverlap(SpriteKind.echo, SpriteKind.Enemy, function (sprite6, otherSpr
             statusbar_rules_en()
         }
         statusbar.attachToSprite(otherSprite5)
-        if (false) {
-        	
-        } else {
+        if (otherSprite5 == spoder2 || otherSprite5 == spoder) {
             statusbar.value += -1
+        } else {
+            statusbar.value += -1.5
         }
         statusbar.setFlag(SpriteFlag.Invisible, false)
         sprites.destroy(sprite6, effects.starField, 100)
         if (0 == statusbar.value) {
-            if (false) {
-            	
-            } else {
-                kill_count += 1
-                statusbar.setFlag(SpriteFlag.Invisible, true)
-                sprites.destroy(otherSprite5)
+            kill_count += 1
+            statusbar.setFlag(SpriteFlag.Invisible, true)
+            sprites.destroy(otherSprite5)
+            if (otherSprite5 == spoder) {
+                spoderded1 += 1
+            } else if (otherSprite5 == spoder2) {
+                spoderded2 += 1
             }
         }
     }
@@ -474,26 +534,45 @@ function Animations () {
         }
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Echo_shimmer, function (sprite2, otherSprite) {
+    animation.stopAnimation(animation.AnimationTypes.All, zol_echo_shimmer)
+    effects.clearParticles(zol_echo_shimmer)
+    zol_echo_shimmer.setImage(assets.image`empty`)
+    dialog("Basic")
+    game.showLongText("You found a echo!", DialogLayout.Bottom)
+    has_voltzol_echo += 1
+})
+scene.onOverlapTile(SpriteKind.echo, myTiles.tile38, function (sprite, location) {
+    tiles.setTileAt(location, myTiles.tile48)
+    electricity_on += 1
+})
+let web2: Sprite = null
+let web: Sprite = null
+let electricity_on = 0
+let has_voltzol_echo = 0
+let spoderded2 = 0
+let spoderded1 = 0
 let wand2: Sprite = null
 let mySprite = 0
+let hidden_door: Sprite = null
+let spoder2: Sprite = null
+let spoder: Sprite = null
+let woltzol: Sprite = null
 let wall_hole: Sprite = null
 let bar_basic: Sprite = null
 let Henry_the_turmit: Sprite = null
-let Bar_left: Sprite = null
 let Bar_right: Sprite = null
+let Bar_left: Sprite = null
 let Bar_down: Sprite = null
 let bar_up: Sprite = null
-let lev = 0
-let Heart: Sprite = null
 let projectile: Sprite = null
-let has_voltzol_echo = 0
 let statusbar: StatusBarSprite = null
 let Echo_matte = 0
 let nearest_enemy: Sprite = null
 let shorted_distance = 0
 let Zol_echo2: Sprite = null
 let zol_echo_shimmer: Sprite = null
-let woltzol: Sprite = null
+let Lvl = 0
 let kill_count = 0
 let dot_on = 0
 let Cursed_rock: Sprite = null
@@ -502,31 +581,15 @@ let Rock_mimic: Sprite = null
 let steinsjekk = 0
 let direction = 0
 let Rock: Sprite = null
+let Heart: Sprite = null
 let zelda: Sprite = null
-LoadLevel(3)
-let nearest_enemy2 = 0
-let Echo_matte2 = 0
-statusbar_rules_en()
+LoadLevel(5)
 zelda = sprites.create(assets.image`Zelda_front`, SpriteKind.Player)
+let Echo_matte2 = 0
+let nearest_enemy2 = 0
+statusbar_rules_en()
+Heart = sprites.create(assets.image`empty`, SpriteKind.Food)
 let A = sprites.create(assets.image`empty`, SpriteKind.UI)
-let mySprite2 = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Player)
 Rock = sprites.create(assets.image`empty`, SpriteKind.Throwable)
 let Mimic_health = 3
 scene.cameraFollowSprite(zelda)
@@ -535,8 +598,53 @@ A.setFlag(SpriteFlag.RelativeToCamera, true)
 A.setPosition(150, 109)
 Rock.setFlag(SpriteFlag.GhostThroughWalls, true)
 game.onUpdate(function () {
+    if (spoderded1 == 1 && spoderded2 == 1) {
+        spoderded2 += 1
+        animation.runImageAnimation(
+        Bar_right,
+        assets.animation`bar_right_animation`,
+        200,
+        false
+        )
+        tiles.setWallAt(tiles.getTileLocation(14, 7), false)
+    }
+    if (Math.percentChance(5)) {
+        sprites.destroy(web, effects.disintegrate, 100)
+        sprites.destroy(web2, effects.disintegrate, 100)
+    }
+    while (Lvl == 3 && Math.percentChance(0.05)) {
+        if (spoderded1 == 0) {
+            web = sprites.create(assets.image`Web_bird`, SpriteKind.web)
+            animation.runImageAnimation(
+            web,
+            assets.animation`Webbird`,
+            200,
+            true
+            )
+            web.setPosition(spoder.x, spoder.y)
+            web.follow(zelda)
+            if (0 != sprites.allOfKind(SpriteKind.echo).length) {
+                web.follow(Zol_echo2)
+            }
+        }
+        if (spoderded2 == 0) {
+            web2 = sprites.create(assets.image`Web_bird`, SpriteKind.web)
+            animation.runImageAnimation(
+            web2,
+            assets.animation`Webbird`,
+            200,
+            true
+            )
+            web2.setPosition(spoder2.x, spoder2.y)
+            web2.follow(zelda)
+            if (0 != sprites.allOfKind(SpriteKind.echo).length) {
+                web2.follow(Zol_echo2)
+            }
+        }
+    }
     if (Mimic_health == 0) {
-        sprites.destroy(mySprite)
+        sprites.destroy(Rock_mimic, effects.halo, 500)
+        sprites.destroy(Cursed_rock, effects.halo, 500)
     }
     A.setImage(assets.image`empty`)
     if (Mimic_check == 1) {
@@ -546,7 +654,7 @@ game.onUpdate(function () {
     if (info.life() == 0) {
         zelda.startEffect(effects.fire)
     }
-    if (2 == kill_count && has_voltzol_echo == 1 && lev == 1) {
+    if (2 == kill_count && has_voltzol_echo == 1 && Lvl == 1) {
         music.stopAllSounds()
         music.play(music.createSong(assets.song`You_did_it`), music.PlaybackMode.InBackground)
         Henry_the_turmit = sprites.create(assets.image`Henry_the_turmit`, SpriteKind.npc)
@@ -562,15 +670,15 @@ game.onUpdate(function () {
         tiles.setTileAt(tiles.getTileLocation(9, 1), myTiles.tile16)
         has_voltzol_echo = 5
     }
-    if (tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), myTiles.tile16)) {
+    if (Lvl == 1 && tiles.tileIs(tiles.locationInDirection(tiles.locationOfSprite(zelda), CollisionDirection.Top), myTiles.tile16)) {
         A.setImage(assets.image`Button`)
         dialog("Henry")
         if (controller.A.isPressed() && 5 == has_voltzol_echo) {
             has_voltzol_echo += 1
-            game.showLongText("Hello there. Thanks for taking care of Those pesky zols. My name is Henry the Turmit. Vendor of rare goods. As a thank you i will open the door over there", DialogLayout.Bottom)
-            game.showLongText("Hey is that a echo shimmer. If you have a wand you can use it to have a enemy help you fight. HUH! you don't have a wand. Convenient that i have one in my stock right now. Do you want it?", DialogLayout.Bottom)
             wand2 = sprites.create(assets.image`Wand`, SpriteKind.wand)
             wand2.setPosition(Henry_the_turmit.left - 6, Henry_the_turmit.y)
+            game.showLongText("Hello there. Thanks for taking care of Those pesky zols. My name is Henry the Turmit. Vendor of rare goods. As a thank you i will open the door over there", DialogLayout.Bottom)
+            game.showLongText("Hey is that a echo shimmer. If you have a wand you can use it to have a enemy help you fight. HUH! you don't have a wand. Convenient that i have one in my stock right now. Do you want it?", DialogLayout.Bottom)
             animation.runImageAnimation(
             wand2,
             assets.animation`wand animation`,
@@ -583,7 +691,7 @@ game.onUpdate(function () {
             game.showLongText("Go ahead try it ", DialogLayout.Bottom)
         }
     }
-    if (lev == 2 && tiles.tileIs(tiles.locationOfSprite(zelda), myTiles.tile28) && mySprite == 0) {
+    if (Lvl == 2 && tiles.tileIs(tiles.locationOfSprite(zelda), myTiles.tile28) && mySprite == 0) {
         effects.starField.startScreenEffect(5000)
         dialog("Nayru")
         game.showLongText("Zelda\\n \\n That wand was created by me to help a hero.\\n I see you've gotten yourself into trouble.\\n Well there's probably nothing else you can do but find the treasure and give it to him, Turmits can be dangerous when they're angry\\n \\n I nearly forgot i have to teach how to use the wand.\\n \\n When you make a new echo the old one Automaticlly get destroyed. If the enemy and your echo is equally strong both will get destroyed. your echo will often be weaker", DialogLayout.Bottom)
