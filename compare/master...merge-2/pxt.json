@@ -1,0 +1,24 @@
+{
+    "name": "zelda-lignende-skoleoppgave-compare-mastermerge-2",
+    "dependencies": {
+        "device": "*",
+        "zelda-lignende-skoleoppgave": "github:sverre02/zelda-lignende-skoleoppgave"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "assets.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "2.0.46",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
