@@ -7,7 +7,8 @@
         "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.2.1",
         "pxt-button-combos": "github:jwunderl/pxt-button-combos#v0.0.24",
         "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
-        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3"
+        "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
+        "darts": "*"
     },
     "files": [
         "main.blocks",
@@ -24,7 +25,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "2.0.21",
+        "target": "2.0.46",
         "targetId": "arcade"
     },
     "supportedTargets": [
